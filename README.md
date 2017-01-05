@@ -22,7 +22,7 @@ qt.insert(new Object(), 1, 2);
 // Returns a List<Object> containing the previously inserted object
 List<Object> r = qt.query(new double[]{0, 0}, new double[]{2, 2});
 // Object removal
-qt.remove(r.get(0), 1, 2);
+qt.remove(r.get(0), 1, 2));
 ```
 
 ## Import in your project
