@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
-import org.danilopianini.lang.HashUtils;
 import org.jooq.lambda.tuple.Tuple4;
 
 import com.google.common.base.Optional;
@@ -543,6 +542,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
         private static final long serialVersionUID = 9021533648086596986L;
         private final E element;
         private final double x, y;
+        private int hash;
 
         QuadTreeEntry(final E el, final double xp, final double yp) {
             element = el;
@@ -564,7 +564,10 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
         @Override
         public int hashCode() {
-            return HashUtils.hash32(x, y, element);
+            if (hash == 0) {
+                hash = Hashes.hash32(x, y, element);
+            }
+            return hash;
         }
 
         public boolean isIn(final double sx, final double sy, final double fx, final double fy) {

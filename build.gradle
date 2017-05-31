@@ -17,7 +17,7 @@ apply plugin: 'org.danilopianini.build-commons'
 dependencies {
     compile "com.google.guava:guava:${guavaVersion}"
     compile "org.jooq:jool:${joolVersion}"
-    compile "org.danilopianini:javalib-java7:${jlib7Version}"
+    compile "org.danilopianini:boilerplate:${boilerplateVersion}"
     testCompile "junit:junit:$junitVersion"
 }
 
