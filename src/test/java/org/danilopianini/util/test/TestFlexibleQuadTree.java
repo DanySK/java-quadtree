@@ -17,7 +17,7 @@ import org.junit.Test;
  */
 public class TestFlexibleQuadTree {
 
-    private static final int INSERTIONS = 10000;
+    private static final int INSERTIONS = 100000;
     private static final int SUB_INS = INSERTIONS / 4;
     private static final Object TOKEN = "";
 
