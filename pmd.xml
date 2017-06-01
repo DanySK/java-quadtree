@@ -17,7 +17,7 @@
 	<rule ref="rulesets/java/finalizers.xml/AvoidCallingFinalize" />
 	<rule ref="rulesets/java/strictexception.xml/AvoidCatchingNPE" />
 	<rule ref="rulesets/java/strictexception.xml/AvoidCatchingThrowable" />
-	<rule ref="rulesets/java/design.xml/AvoidConstantsInterface" />
+	<rule ref="rulesets/java/design.xml/ConstantsInInterface" />
 	<rule ref="rulesets/java/basic.xml/AvoidDecimalLiteralsInBigDecimalConstructor" />
 	<rule ref="rulesets/java/naming.xml/AvoidDollarSigns" />
 	<rule ref="rulesets/java/strings.xml/AvoidDuplicateLiterals" />
@@ -205,8 +205,7 @@
 	<rule ref="rulesets/java/unusedcode.xml/UnusedFormalParameter" />
 	<rule ref="rulesets/java/imports.xml/UnusedImports" />
 	<rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable" />
-	<rule ref="rulesets/vm/basic.xml/UnusedMacroParameter" />
-	<rule ref="rulesets/java/unusedcode.xml/UnusedModifier" />
+	<rule ref="rulesets/java/unnecessary.xml/UnnecessaryModifier" />
 	<rule ref="rulesets/java/unnecessary.xml/UnusedNullCheckInEquals" />
 	<rule ref="rulesets/java/unusedcode.xml/UnusedPrivateField" />
 	<rule ref="rulesets/java/unusedcode.xml/UnusedPrivateMethod" />
