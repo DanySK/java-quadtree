@@ -52,7 +52,7 @@ public class TestFlexibleQuadTree {
         moveToAgain.stream().forEach(o -> assertFalse(qt.remove(o, o[0], o[1])));
     }
 
-    private static void testMove(
+    private static void testMove(//NOPMD: false positive
             final FlexibleQuadTree<Object> qt,
             final List<double[]> from,
             final List<double[]> to) {
