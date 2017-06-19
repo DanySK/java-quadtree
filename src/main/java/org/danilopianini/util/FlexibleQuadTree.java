@@ -540,7 +540,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     @Override
     public String toString() {
-        return bounds.toString() + ' ' + elements.toString();
+        return (bounds == null ? "Unbounded" : bounds.toString()) + ":" + elements.toString();
     }
 
     private enum Child {
