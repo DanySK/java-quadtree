@@ -204,6 +204,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
      *            Y
      */
     public void insert(final E e, final double x, final double y) {
+        invalidateCache();
         if (bounds == null) {
             if (hasSpace()) {
                 insertNode(e, x, y);
@@ -232,7 +233,6 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
             root.createParent(x, y);
         }
         root.insertHere(e, x, y);
-        invalidateCache();
     }
 
     private void insertHere(final E e, final double x, final double y) {

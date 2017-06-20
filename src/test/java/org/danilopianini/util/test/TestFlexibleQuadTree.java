@@ -174,6 +174,31 @@ public class TestFlexibleQuadTree {
         // CHECKSTYLE:ON
     }
 
+    /**
+     * This bug emerged during the experiments with Alchemist-Biochemistry chemotaxis.
+     */
+    @Test
+    public void testChemotaxisBug() {
+        final SpatialIndex<Object> qt = new FlexibleQuadTree<>();
+        // CHECKSTYLE:OFF reason: magic numbers here are from the original failing test
+        qt.insert(0.0, pos(0, 0));
+        qt.query(toargs(-2, 2, 2, -2));
+        qt.insert(1.0, pos(1, 0));
+        qt.query(toargs(-1, 2, 3, -2));
+        qt.insert(2.0, pos(0, 1));
+        qt.query(toargs(-2, 3, 2, -1));
+        qt.insert(3.0, pos(1, 1));
+        qt.query(toargs(-1, 3, 3, -1));
+        qt.query(toargs(1, 1, 1, 1));
+        qt.insert(4.0, pos(1, 1));
+        assertTrue(qt.query(toargs(-1, 3, 3, -1)).remove(4.0));
+        // CHECKSTYLE:ON reason: magic numbers here are from the original failing test
+    }
+
+    private static double[][] toargs(final double x1, final double y1, final double x2, final double y2) {
+        return new double[][]{pos(x1, x2), pos(x2, y2)};
+    }
+
     private static double[] pos(final double x, final double y) {
         return new double[]{x, y};
     }
