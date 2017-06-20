@@ -196,7 +196,7 @@ public class TestFlexibleQuadTree {
     }
 
     private static double[][] toargs(final double x1, final double y1, final double x2, final double y2) {
-        return new double[][]{pos(x1, x2), pos(x2, y2)};
+        return new double[][]{pos(x1, y1), pos(x2, y2)};
     }
 
     private static double[] pos(final double x, final double y) {
