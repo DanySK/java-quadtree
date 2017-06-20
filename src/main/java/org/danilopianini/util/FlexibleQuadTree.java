@@ -6,6 +6,13 @@
  *******************************************************************************/
 package org.danilopianini.util;
 
+import static java.lang.Math.ceil;
+import static java.lang.Math.floor;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.lang.Math.nextDown;
+import static java.lang.Math.nextUp;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,24 +20,10 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
-import org.jooq.lambda.tuple.Tuple4;
-
 import com.google.common.base.Optional;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-import static java.lang.Math.nextUp;
-import static java.lang.Math.nextDown;
-import static java.lang.Math.floor;
-import static java.lang.Math.ceil;
 
 /**
  * 
@@ -44,15 +37,11 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     public static final int DEFAULT_CAPACITY = 10;
     private static final long serialVersionUID = 0L;
 
-    private transient LoadingCache<Tuple4<Double, Double, Double, Double>, List<E>> cache;
     private Rectangle2D bounds;
-    private final List<Optional<FlexibleQuadTree<E>>> children = new ArrayList<>(
-            Collections.nCopies(4, Optional.absent()));
+    private final List<Optional<FlexibleQuadTree<E>>> children = new ArrayList<>(Collections.nCopies(4, Optional.absent()));
     private boolean childrenCreated;
     private final Deque<QuadTreeEntry<E>> elements;
-
     private final int maxElements;
-
     private FlexibleQuadTree<E> parent;
 
     /**
@@ -232,7 +221,6 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
             root.createParent(x, y);
         }
         root.insertHere(e, x, y);
-        invalidateCache();
     }
 
     private void insertHere(final E e, final double x, final double y) {
@@ -336,14 +324,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
      * @return true if the element is found and no error occurred
      */
     public boolean move(final E e, final double sx, final double sy, final double fx, final double fy) {
-        invalidateCache();
         return moveFromNode(root, e, sx, sy, fx, fy);
-    }
-
-    private void invalidateCache() {
-        if (cache != null) {
-            cache.invalidateAll();
-        }
     }
 
     @Override
@@ -403,30 +384,13 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
      * @return {@link List} of Objects in range.
      */
     public List<E> query(final double x1, final double y1, final double x2, final double y2) {
-        if (cache == null) {
-            cache = CacheBuilder.newBuilder()
-                .expireAfterAccess(10, TimeUnit.SECONDS)
-                .build(new CacheLoader<Tuple4<Double, Double, Double, Double>, List<E>>() {
-                    @Override
-                    public List<E> load(final Tuple4<Double, Double, Double, Double> key) {
-                        final List<E> result = new ArrayList<>();
-                        final double x1 = key.v1();
-                        final double y1 = key.v2();
-                        final double x2 = key.v3();
-                        final double y2 = key.v4();
-                        final double sx = min(x1, x2);
-                        final double sy = min(y1, y2);
-                        final double fx = max(x1, x2);
-                        final double fy = max(y1, y2);
-                        root.query(sx, sy, fx, fy, result);
-                        return result;
-                    } });
-        }
-        try {
-            return cache.get(new Tuple4<>(x1, y1, x2, y2));
-        } catch (ExecutionException e) {
-            throw new IllegalStateException(e);
-        }
+        final List<E> result = new ArrayList<>();
+        final double sx = min(x1, x2);
+        final double sy = min(y1, y2);
+        final double fx = max(x1, x2);
+        final double fy = max(y1, y2);
+        root.query(sx, sy, fx, fy, result);
+        return result;
     }
 
     private void query(// NOPMD: False positive
@@ -472,7 +436,6 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
      * @return true if the element has been found and removed
      */
     public boolean remove(final E e, final double x, final double y) {
-        invalidateCache();
         return root.removeHere(e, x, y);
     }
 
@@ -540,7 +503,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     @Override
     public String toString() {
-        return bounds.toString() + ' ' + elements.toString();
+        return (bounds == null ? "Unbounded" : bounds.toString()) + ":" + elements.toString();
     }
 
     private enum Child {
