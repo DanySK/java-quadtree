@@ -10,7 +10,6 @@ import static java.lang.Math.ceil;
 import static java.lang.Math.floor;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import static java.lang.Math.nextDown;
 import static java.lang.Math.nextUp;
 
 import java.io.Serializable;
@@ -20,10 +19,9 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import com.google.common.base.Optional;
+import java.util.Objects;
+import java9.util.Optional;
+import java9.util.stream.StreamSupport;
 
 /**
  * 
@@ -38,7 +36,8 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     private static final long serialVersionUID = 0L;
 
     private Rectangle2D bounds;
-    private final List<Optional<FlexibleQuadTree<E>>> children = new ArrayList<>(Collections.nCopies(4, Optional.absent()));
+    private final List<Optional<FlexibleQuadTree<E>>> children =
+            new ArrayList<>(Collections.nCopies(4, Optional.empty()));
     private boolean childrenCreated;
     private final Deque<QuadTreeEntry<E>> elements;
     private final int maxElements;
@@ -75,11 +74,43 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     /**
-     * @param elemPerQuad
-     *            maximum number of elements per quad
+     * @param elemPerQuad maximum number of elements per quad
      */
     public FlexibleQuadTree(final int elemPerQuad) {
         this(elemPerQuad, null, null);
+    }
+
+    /**
+     * Backport from Java 1.8
+     */
+    public static double nextDown(double d) {
+        if (Double.isNaN(d) || d == Double.NEGATIVE_INFINITY) {
+            return d;
+        } else {
+            if (d == 0.0) {
+                return -Double.MIN_VALUE;
+            } else {
+                return Double.longBitsToDouble(Double.doubleToRawLongBits(d) + ((d > 0.0d) ? -1L : +1L));
+            }
+        }
+    }
+
+    /**
+     * Backport from Java 1.8
+     *
+     * Returns {@code true} if the argument is a finite floating-point
+     * value; returns {@code false} otherwise (for NaN and infinity
+     * arguments).
+     *
+     * @param d the {@code double} value to be tested
+     *
+     * @return {@code true} if the argument is a finite
+     *         floating-point value, {@code false} otherwise.
+     *
+     * @since 1.8
+     */
+    public static boolean isFinite(double d) {
+        return Math.abs(d) <= Double.MAX_VALUE;
     }
 
     private double centerX() {
@@ -94,8 +125,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
         return bounds == null || bounds.contains(x, y);
     }
 
-    private FlexibleQuadTree<E> create(
-            final double minx, final double maxx, final double miny, final double maxy,
+    private FlexibleQuadTree<E> create(final double minx, final double maxx, final double miny, final double maxy,
             final FlexibleQuadTree<E> father) {
         return new FlexibleQuadTree<E>(minx, maxx, miny, maxy, getMaxElementsNumber(), root, father);
     }
@@ -167,7 +197,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     private boolean hasChildren() {
         if (!childrenCreated) {
-            childrenCreated = children.stream().allMatch(Optional::isPresent);
+            childrenCreated = StreamSupport.stream(children).allMatch(Optional::isPresent);
         }
         return childrenCreated;
     }
@@ -201,17 +231,18 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
             double minx, miny, maxx, maxy;
             minx = miny = Double.POSITIVE_INFINITY;
             maxx = maxy = Double.NEGATIVE_INFINITY;
-            for (final QuadTreeEntry<E> element: elements) {
+            for (final QuadTreeEntry<E> element : elements) {
                 minx = min(minx, element.x);
                 miny = min(miny, element.y);
                 maxx = max(maxx, element.x);
                 maxy = max(maxy, element.y);
             }
-            assert Double.isFinite(minx);
-            assert Double.isFinite(maxx);
-            assert Double.isFinite(miny);
-            assert Double.isFinite(maxy);
-            bounds = new Rectangle2D(floor(nextDown(minx)), floor(nextDown(miny)), ceil(nextUp(maxx)), ceil(nextUp(maxy)));
+            assert isFinite(minx);
+            assert isFinite(maxx);
+            assert isFinite(miny);
+            assert isFinite(maxy);
+            bounds = new Rectangle2D(floor(nextDown(minx)), floor(nextDown(miny)), ceil(nextUp(maxx)),
+                    ceil(nextUp(maxy)));
         }
         /*
          * I must insert starting from the root. If the root does not contain
@@ -234,7 +265,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
         }
     }
 
-    private void insertNode(@Nonnull final E e, final double x, final double y) {
+    private void insertNode(final E e, final double x, final double y) {
         assert elements.size() < maxElements : "Bug in " + getClass() + ". Forced insertion over the container size.";
         elements.push(new QuadTreeEntry<>(e, x, y));
     }
@@ -447,12 +478,9 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     private boolean removeInChildren(final E e, final double x, final double y) {
-        return children.stream()
-                .filter(Optional::isPresent)
+        return StreamSupport.stream(children).filter(Optional::isPresent)
                 .map(Optional::get)
-                .filter(c -> c.removeHere(e, x, y))
-                .findAny()
-                .isPresent();
+                .anyMatch(c -> c.removeHere(e, x, y));
     }
 
     private FlexibleQuadTree<E> selectChild(final double x, final double y) {
@@ -525,17 +553,14 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
         public boolean equals(final Object obj) {
             if (obj instanceof QuadTreeEntry<?>) {
                 final QuadTreeEntry<?> e = (QuadTreeEntry<?>) obj;
-                if (samePosition(e)) {
-                    return element == e.element || element != null && element.equals(e.element);
-                }
-                return false;
+                return samePosition(e) && Objects.equals(element, e.element);
             }
             return false;
         }
 
         @Override
         public int hashCode() {
-            return Hashes.hash32(x, y, element);
+            return Objects.hash(x, y, element);
         }
 
         public boolean isIn(final double sx, final double sy, final double fx, final double fy) {
