@@ -1,8 +1,10 @@
 buildscript {
     repositories {
         maven { url "https://plugins.gradle.org/m2/" }
+        jcenter()
     }
     dependencies {
+        classpath "me.tatarka:gradle-retrolambda:${retroLambdaVersion}"
         classpath "org.danilopianini:build-commons:${buildCommonsVersion}"
         classpath "org.danilopianini:javadoc.io-linker:${javadocIOLinkerVersion}"
     }
@@ -15,13 +17,19 @@ repositories {
 apply plugin: 'org.danilopianini.build-commons'
 
 dependencies {
-    compile "com.google.guava:guava:${guavaVersion}"
-    compile "org.jooq:jool:${joolVersion}"
-    compile "org.danilopianini:boilerplate:${boilerplateVersion}"
+    compile "net.sourceforge.streamsupport:android-retrostreams:${androidRetroStreamsVersion}"
     testCompile "junit:junit:$junitVersion"
 }
 
 apply plugin: 'org.danilopianini.javadoc.io-linker'
+apply plugin: 'me.tatarka.retrolambda'
+
+retrolambda {
+    javaVersion JavaVersion.VERSION_1_7
+    defaultMethods false
+    incremental true
+    exclude 'test'
+}
 
 uploadArchives {
     repositories {
