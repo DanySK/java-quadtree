@@ -11,7 +11,7 @@ env:
 install: true
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y graphviz openjdk-7-jdk
+  - sudo apt-get install -y graphviz
 script:
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash travis_build.sh; fi'
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash travis_build_pull_request.sh; fi'
