@@ -1,7 +1,7 @@
 dist: trusty
 language: java
 jdk:
-  - oraclejdk8
+  - openjdk8
 env:
   global:
     - secure: "ggSaVzPFSecfOuXulqlcpm5w3FnkI/1wbYjYeq+EH0drDFKd9pC/On9DBZZdLkZKOTWDDPN0X1+GCfKxuFd9CWMrrVhJ5RSEvbeLTvja317/UJ2NeylpTPl5sXLMC8z76EkKvzpwDhYx6tvns+VXAFfXWof0B5+EsAD+s6XxZYaXlzxQDmPWfr8E+zPfc3MLBPLGd2LFQUg0k/tnQeadALky+uQdRVGVJ1Kw9cKgxkIZ2w5yrCOfCWbvk9Vbp8HnI/0R9UW87Bb6m0oGnqDsSZRdjyMZX1fYFTGymyDHUHa1wS+JhZnDeFhXlTUhc1kc/iVL6cEA6RA/ixiDV8XEYpiIgxa1mfw+Ox0RnFm9RbBe9oMfhhmdEUoqNEMVYiVcm/bggOJB+drGiOj+czxfo1o7J5yUJKuPLv9HFko83TIr5yhCMOJvLogeT3muJtLE2yuIUfF0+B+E86ffxyD89IqMtw7pNn39FeN4U1lDOMNqd8OnX5q1Yvx/P+fTN+Dij34ZUrTb+WRQyrjkJO8sX6qcp3WaVznt4luGI0F0zeOXsMY+ps0IPCH9+lRXR/lecVRCQbVBL8f5GbiwIG6EQ4j74vwFrQQs6tvfoSSGFwSwpiWIVpx+OzTy/oj8PlfsF0ASVO5nahkZ/IDiBRzqyeUEf+u372aFmqkUDlDxzb0="
