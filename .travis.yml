@@ -1,16 +1,75 @@
-dist: trusty
-language: java
-jdk:
-  - openjdk8
+reference_jdk: &reference_jdk
+  'JDK="adopt@1.8"'
+reference_os: &reference_os
+  'linux'
+language: bash
+git:
+  depth: false
+os:
+  - osx
+  - windows
+  - *reference_os
+dist: bionic
+addons:
+  apt:
+    packages:
+      - graphviz
+stages:
+  - check
+  - test
+  - deploy
 env:
   global:
-    - secure: "ggSaVzPFSecfOuXulqlcpm5w3FnkI/1wbYjYeq+EH0drDFKd9pC/On9DBZZdLkZKOTWDDPN0X1+GCfKxuFd9CWMrrVhJ5RSEvbeLTvja317/UJ2NeylpTPl5sXLMC8z76EkKvzpwDhYx6tvns+VXAFfXWof0B5+EsAD+s6XxZYaXlzxQDmPWfr8E+zPfc3MLBPLGd2LFQUg0k/tnQeadALky+uQdRVGVJ1Kw9cKgxkIZ2w5yrCOfCWbvk9Vbp8HnI/0R9UW87Bb6m0oGnqDsSZRdjyMZX1fYFTGymyDHUHa1wS+JhZnDeFhXlTUhc1kc/iVL6cEA6RA/ixiDV8XEYpiIgxa1mfw+Ox0RnFm9RbBe9oMfhhmdEUoqNEMVYiVcm/bggOJB+drGiOj+czxfo1o7J5yUJKuPLv9HFko83TIr5yhCMOJvLogeT3muJtLE2yuIUfF0+B+E86ffxyD89IqMtw7pNn39FeN4U1lDOMNqd8OnX5q1Yvx/P+fTN+Dij34ZUrTb+WRQyrjkJO8sX6qcp3WaVznt4luGI0F0zeOXsMY+ps0IPCH9+lRXR/lecVRCQbVBL8f5GbiwIG6EQ4j74vwFrQQs6tvfoSSGFwSwpiWIVpx+OzTy/oj8PlfsF0ASVO5nahkZ/IDiBRzqyeUEf+u372aFmqkUDlDxzb0="
-    - secure: "GqcVCSGzPRotsVI9DIQdORYQbSNaGy61U3I8SuwQPnHxHUivkpfZQPtapZ+F7kXQHKMo+ZMI6Lde88M6DwEfuMVENZfXuMywEjA2hhoASyS9iJqLmRkvx7sldiw8SDUNvN0wlA2oBQS7765SFibhiugqSgqq+4JNSth2oEUgj6nAMFLxrgGJhY4TnRE5j6n8EigMgDc5qsr4z/ELXW7gQ9VaJxUeevcq+I+71FgVgTMgYz1pGByfomFxYhC+iIhimkUKM+y186Fekn1zQ2F54VLZ+XA7HyUXffVClel2avutoz0wXf7p99JXsDT65TX2Kb7Olm5ViF6ESAUARRzQFjzqCdQlRGBBEiLRxZ9PnJm4/rYRiM6MI1kgdqtKdfGFx6BRM5fq6vWv1rjiyA/m9U87CpzJplpjxETJFof6m5Vp6p0i8K8ulsmey4oulBjMBL0TBzDhP96t2HHn96D+8mDf8GzzGzaT6760qkrBsCkCwsiSq8Y4tiC63K8gUvEUR7TmxvX/r/zVPYsBbQpyvKKsdvnjhO8wsxViYU5iSYQ+9t2volIdvFWA6RFNzPHj+tgEMIcOCUpNzQ1Pg/5qladLX0JgDmR4ShrxZIaPqOx1/btq4+9m7brUXxxwZBNhCb5bo5an3JANkhrqCWS5RiN3u3ti3BRD+6oGhEaEUU0="
-    - secure: "kxXobbS82yyI92pG68eRShR9he4uvJOGijLWKaUkfVyRAtm2/aqG7zG0j870SVnqG3D2lf/2C/pOz/izHl3QNILx/b/ZbURgjsVBy4YjAZIII21WDROmV0Mp923IpouhUBV4Q3+F9hYHXY8YUFI1e5+BwiPwaYfOkWnwB2v40XbTADy0NdiAlQiyVv2u/qsFCenTVWJeEbRHuTGZn6e1KjPblb3V7NtjTCb3rM9m8+BJmjbLVpBaEOa+yVyDzw5grUgzvf3dgH3qnU2d1fk/tYfuQSIyQ8UHBPV9i24nb1fhRRkx+EJBW1nvYMBgpmPWPqxhD9Zhs8pk+UA2eNFN2SM04KpAF+xpff5OauNfwhI4zLfdEvzfx8DIdyiFc7VA5gKVXhZo30Tj6wR9fd1LMcQ31FZiTPr8Y7NrwAd9FfRRT0NcR1DBFZeosBfuDn6XB69cVf48aPO6M3Lz6k3a2P5PnM7nY1tSl1lMnHPUpR5kuDUvgjGVjml77KEk5Uh5OEDUIdXV3PQikaX67YGDYqYh+QpF9ak7ENNtI8/eJUf6ovzIwLykwpZWrmcP4Zagptq6SzxxyRe2eTe5uYFkw2+eZNv0ujlYZDxxIRvOB/5pvvq157r3GpZJK94y8zvBDzx/rnHTmRfmlnEk8NzKfdDYMI4d8+4Fn3Muxdc/a6k="
-install: true
+    - TERM=dumb
+    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
+    - PUBLISH="false"
+    - OFFICIAL_REPO_SLUG="DanySK/java-quadtree"
+    - NO_WIN_DEFENDER=`curl "${GRAVIS}.disable-windows-defender.sh" --output .no-defender.sh && source .no-defender.sh`
+  matrix:
+    - *reference_jdk
+    - JDK="adopt-openj9@1.8"
+matrix:
+  exclude:
+    - os: *reference_os
+      env: *reference_jdk
+jobs:
+  include:
+    - stage: check
+      name: "Deep check on reference OS and JDK"
+      os: *reference_os
+      env:
+        - *reference_jdk
+      script:
+        - ./gradlew check
+    - stage: deploy
+      name: "Reports and deployment"
+      if: repo = env(OFFICIAL_REPO_SLUG) AND type != pull_request
+      os: *reference_os
+      env:
+        - PUBLISH="true"
+        # Signing
+        - secure: "R0RY3PuASK/Ej7CZTX/1e1GKNqHPVX6c5Im2++E7lbVqa5xudwETD7tkWKqCdIDWnbSrcrPIlCNkbu7inL/mCaKC3092nAX5ijBseF1SkxK9971tol7fVLiDh14X+B9+OtW1rJveT3oIERbsEs3/fdKRbsXHknDZp54HrgPuKpQ0jUk8RUEYBwXdNgplMZCLSsJdvM7d9natXTqf4QKiCA/fS5MU8rfPDypFjOeNypECbnLdzswyaZ/lpTt7/mKyPUdjcYkFEEPgi+WS9HuIDqJWa20z/geBaiQLA+Rj5AJF765Yx2oUpFCFSAuk75ZFETTnFRYdQikPJs0Jry3iELLSwqZU73TJWzKhZZar6qJMxUTQy+Kzt6yCuAmp0q/SkT5eepJp3pHO9cegJrQ52lEgH8+7LMA2aP9ZFqMloh2WUJGALX2EHVwgxyy2dNOp4nvHvVEJ9XEFuYEruNtri7kTNv67v2yoGDr5wz4whnBIZ84/T0EyqRKRjq3kR+RyQm1C2O5/19kuz9ppSmTBfPNfjfC/G7GwgOSPWinxQPzWf+szQypZ4+YItNyWkNogOKbC6O6AY/tTP0LUhxUEKOS+uBboc/9cbgQ1sdwx8CaUT4sbmpsGbS0Z6dTE0EqgMP0Ip7j4iW+nOycvUpDDWE9D7Soq6AcSSUTMf6zdlDU="
+        # Central
+        - secure: "kZnJBCZLaRbvs2EZNM/n/z29gapLCtOa64pQ8KVI9ITWCMm/9niVrcxC8pm1t46MgOmzF8WD74+i826xPuc2IitL8m9DVJjl54/0RgpM7frDwesGwPNIGUSOrR6qjIDDwliCqX0EI8XfJttJhE+KqoYs9rGvcTOqoASwCsI3srY2DsKZXZlpJgJ+Q1mqizfjfXtaxqo+S+VgrID60Nw4H2+UoQYQCTmcH6HYZu4aRbRwyH03Z4APpxuz1wMbY2WREMdL65NeBJ1Hn6UM09pTpgtic9Xj+QPqZb/KgrCH+7YUh3Ioa0z4+Ri13a8lCZaUKhTdoAKCi3L0oYPa6c8u9Evj4H64lbkD/PQm1wREFiHyovsadB0bx4biD74l2uxxvFbtAegksX3stEGJr67Rc5Bc7DyCd2qkh1389+iQ9sqtMf5bavZjSM29oGAqcOhx8sYOzg2PzIcTtaLWK2io4PeIRiyDw9Fpsorj8vJyzFRoncFK/Un1PO/4HHZwk1FJ3XNDSzgRxHng/ljAnsrMnrq3bdjix4Tqwo1WgrG/00/L1VZVhpJ8dE7572YmbxahD5eO2EXWqk1zbMc+xe5gVaecuVkg5ab356zIafkjaUDhZ+N0HUkuQFlF+rGIf8T8G4M8jn6s037j4adJ4Mk5bimhJEfaWSnYrVKQ4i0YQMc="
+        - secure: "JVoQ1NHBe26KNVrRHOWVY3MzIdqsnbz/uZTP+9TEx15FQ5yVyk8prKB0SyLoYwz70cE2g/2W+Ix5fVtp8ZpOeZ/ONpJgo8abqxKHkuWsOd6rUSFwe9FpnCgaiMDqH4mhUxv3llrCWugAoBoNSfbjDqy2/X0kyGPdmRHu7XFTAsHJcZeG4KFjuLU+v4W6NrlsDm4vwiJ4iitybI5cggxoR4KU6mccst4vIFhOcnpBx5ERJxATGEgJv0mTubM24H2SiKcxCW3HY8DMuwEVNjCt+d+3rWvDem+EjrFMQ+RxJ/OJwG4fo/B1GDuI+klJB5S3CP2HSlG3jReRHkL4qHRU1Hj2pw5OsKkBBovxMmjFv6vF5VGSZ3FBQhR8rzDMMN+YwHLFxrTH08Ikjqw2CoxBw+wq146fsz0/Vkdoird39O0iz0Wo2RLbkwzM9IEyqFBITnxEQ5Uq33q+1ivpFihO+hRlFQXOh1EZLCT8RIqpyCYxxDzX4h5tlkqVdPGQ9/LX2bb9kTviCggJeBy0gjVt/iXEywMMTxXpPi4MtgS4Sg58wys93H6IQk3gTBRdeD6TJYPJ0kFy2YSmf5OnTX6XarMFD6hQ7NiCtC1Dy57toOVSjUygrIdr/tuc2tM2sVr0a0bakXptkhHCj9GMdmrycdg7+w+tHiWorOOxy8f9G3c="
+        - *reference_jdk
+      install:
+        - openssl aes-256-cbc -K $encrypted_ff8e67061518_key -iv $encrypted_ff8e67061518_iv -in secrets.asc.enc -out secrets.asc -d
+        - export ORG_GRADLE_PROJECT_signingKey=$(cat secrets.asc)
+        - rm secrets.asc
+      script:
+        - ./gradlew compileJava
+      after_success:
+        - travis_wait 30 ./gradlew publishAll
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y graphviz
+  - curl "${GRAVIS}.install-jdk-travis.sh" --output .install-jdk-travis.sh
+  - source .install-jdk-travis.sh
 script:
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash travis_build.sh; fi'
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash travis_build_pull_request.sh; fi'
+  - ./gradlew test
+before_cache:
+  - curl "${GRAVIS}.clean_gradle_cache.sh" --output .clean_gradle_cache.sh
+  - bash .clean_gradle_cache.sh
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
