@@ -31,22 +31,6 @@ object Libs {
             "com.github.spotbugs:com.github.spotbugs.gradle.plugin:" +
             Versions.com_github_spotbugs_gradle_plugin
 
-    const val org_xtext_xtend_gradle_plugin: String =
-            "org.xtext.xtend:org.xtext.xtend.gradle.plugin:" +
-            Versions.org_xtext_xtend_gradle_plugin
-
-    /**
-     * https://www.eclipse.org/Xtext/
-     */
-    const val org_eclipse_xtend_lib: String = "org.eclipse.xtend:org.eclipse.xtend.lib:" +
-            Versions.org_eclipse_xtend_lib
-
-    /**
-     * https://commons.apache.org/proper/commons-collections/
-     */
-    const val commons_collections4: String = "org.apache.commons:commons-collections4:" +
-            Versions.commons_collections4
-
     /**
      * https://github.com/pinterest/ktlint
      */

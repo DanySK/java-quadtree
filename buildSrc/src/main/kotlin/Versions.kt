@@ -12,11 +12,9 @@ import org.gradle.plugin.use.PluginDependencySpec
  * YOU are responsible for updating manually the dependency version.
  */
 object Versions {
-    const val org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin: String = "0.1.0"
-             // available: "0.2.2"
+    const val org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin: String = "0.2.2"
 
-    const val org_danilopianini_publish_on_central_gradle_plugin: String = "0.2.0"
-             // available: "0.2.2"
+    const val org_danilopianini_publish_on_central_gradle_plugin: String = "0.2.3"
 
     const val org_danilopianini_javadoc_io_linker_gradle_plugin: String = "0.1.4"
 
@@ -26,15 +24,9 @@ object Versions {
 
     const val com_github_spotbugs_gradle_plugin: String = "1.6.9" // available: "2.0.0"
 
-    const val org_xtext_xtend_gradle_plugin: String = "2.0.7"
-
-    const val org_eclipse_xtend_lib: String = "2.19.0"
-
-    const val commons_collections4: String = "4.4"
-
     const val ktlint: String = "0.34.2"
 
-    const val guava: String = "25.0-jre"
+    const val guava: String = "28.1-jre"
 
     const val junit: String = "4.13-beta-3"
 

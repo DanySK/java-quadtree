@@ -27,7 +27,7 @@ repositories {
 
 dependencies {
     implementation(Libs.guava)
-    testImplementation("junit:junit:[4.12, 5[")
+    testImplementation(Libs.junit)
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
