@@ -29,6 +29,7 @@ dependencies {
     implementation(Libs.guava)
     testImplementation(Libs.junit)
 }
+
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
