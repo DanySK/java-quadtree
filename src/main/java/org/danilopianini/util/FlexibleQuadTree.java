@@ -22,8 +22,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-
 import com.google.common.base.Optional;
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 
 /**
  * 
@@ -339,7 +340,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
             final E e,
             final double sx, final double sy,
             final double fx, final double fy) {
-        final QuadTreeEntry<E> toRemove = new QuadTreeEntry<E>(e, sx, sy);
+        final QuadTreeEntry<E> toRemove = new QuadTreeEntry<>(e, sx, sy);
         for (FlexibleQuadTree<E> cur = root; cur.contains(sx, sy); cur = cur.selectChild(sx, sy)) {
             if (cur.elements.remove(toRemove)) {
                 /*
@@ -371,7 +372,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     /**
-     * Same of {@link #query(double...)}, but with explicit parameters.
+     * Same of {@link #query(double[]...)}, but with explicit parameters.
      * 
      * @param x1
      *            Rectangle X coordinate of the first point
@@ -441,7 +442,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     private boolean removeHere(final E e, final double x, final double y) {
         if (contains(x, y)) {
-            return elements.remove(new QuadTreeEntry<E>(e, x, y)) || removeInChildren(e, x, y);
+            return elements.remove(new QuadTreeEntry<>(e, x, y)) || removeInChildren(e, x, y);
         }
         return false;
     }
@@ -450,9 +451,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
         return children.stream()
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .filter(c -> c.removeHere(e, x, y))
-                .findAny()
-                .isPresent();
+                .anyMatch(c -> c.removeHere(e, x, y));
     }
 
     private FlexibleQuadTree<E> selectChild(final double x, final double y) {
@@ -523,6 +522,9 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
         @Override
         public boolean equals(final Object obj) {
+            if (obj == this) {
+                return true;
+            }
             if (obj instanceof QuadTreeEntry<?>) {
                 final QuadTreeEntry<?> e = (QuadTreeEntry<?>) obj;
                 if (samePosition(e)) {
@@ -535,7 +537,11 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
         @Override
         public int hashCode() {
-            return Hashes.hash32(x, y, element);
+            final Hasher hasher = Hashing.murmur3_32().newHasher();
+            hasher.putDouble(x);
+            hasher.putDouble(y);
+            hasher.putInt(element.hashCode());
+            return hasher.hash().asInt();
         }
 
         public boolean isIn(final double sx, final double sy, final double fx, final double fy) {
@@ -546,6 +552,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
             return x == target.x && y == target.y;
         }
 
+        @Override
         public String toString() {
             return element.toString() + "@[" + x + ", " + y + "]";
         }

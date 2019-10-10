@@ -17,7 +17,7 @@ import org.junit.Test;
  */
 public class TestFlexibleQuadTree {
 
-    private static final int INSERTIONS = 100000;
+    private static final int INSERTIONS = 100_000;
     private static final int SUB_INS = INSERTIONS / 4;
     private static final Object TOKEN = "";
 
@@ -84,21 +84,21 @@ public class TestFlexibleQuadTree {
             qt.insert(v, val, -val);
             qt.insert(v, -val, -val);
         });
-        final double[] zz = new double[]{0, 0};
-        final double[] minmin = new double[]{-Double.MAX_VALUE, -Double.MAX_VALUE};
-        final double[] maxmax = new double[]{Double.MAX_VALUE, Double.MAX_VALUE};
-        final double[] minmax = new double[]{-Double.MAX_VALUE, Double.MAX_VALUE};
-        final double[] maxmin = new double[]{Double.MAX_VALUE, -Double.MAX_VALUE};
+        final double[] zz = {0, 0};
+        final double[] minmin = {-Double.MAX_VALUE, -Double.MAX_VALUE};
+        final double[] maxmax = {Double.MAX_VALUE, Double.MAX_VALUE};
+        final double[] minmax = {-Double.MAX_VALUE, Double.MAX_VALUE};
+        final double[] maxmin = {Double.MAX_VALUE, -Double.MAX_VALUE};
         assertEquals(4 * SUB_INS, qt.query(minmin, maxmax).size());
         assertEquals(SUB_INS + 3, qt.query(zz, maxmax).size());
         assertEquals(SUB_INS - 1, qt.query(zz, minmax).size());
         assertEquals(SUB_INS - 1, qt.query(zz, maxmin).size());
         assertEquals(SUB_INS - 1, qt.query(zz, minmin).size());
         final double halfWay = Math.nextDown(0.5);
-        final double[] hminmin = new double[]{-halfWay, -halfWay};
-        final double[] hmaxmax = new double[]{halfWay, halfWay};
-        final double[] hminmax = new double[]{-halfWay, halfWay};
-        final double[] hmaxmin = new double[]{halfWay, -halfWay};
+        final double[] hminmin = {-halfWay, -halfWay};
+        final double[] hmaxmax = {halfWay, halfWay};
+        final double[] hminmax = {-halfWay, halfWay};
+        final double[] hmaxmin = {halfWay, -halfWay};
         assertEquals(SUB_INS / 2, qt.query(hmaxmax, maxmax).size());
         assertEquals(SUB_INS / 2, qt.query(hminmax, minmax).size());
         assertEquals(SUB_INS / 2, qt.query(hmaxmin, maxmin).size());
@@ -135,7 +135,7 @@ public class TestFlexibleQuadTree {
     @Test
     public void testCoordinationBug() {
         final SpatialIndex<Object> qt = new FlexibleQuadTree<>();
-        // CHECKSTYLE:OFF
+        // CHECKSTYLE: MagicNumber OFF
         qt.insert(0, pos(0.1809460688778705, -0.47285587823182457));
         qt.insert(1, pos(-0.3486382251646362, 0.7869169418430895));
         qt.insert(2, pos(-0.7472564304558099, -0.6115874398653725));
