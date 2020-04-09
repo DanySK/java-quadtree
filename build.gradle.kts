@@ -23,8 +23,8 @@ repositories {
 }
 
 dependencies {
-    implementation(Libs.guava)
-    testImplementation(Libs.junit)
+    implementation("com.google.guava:guava:_")
+    testImplementation("junit:junit:_")
 }
 
 java {
