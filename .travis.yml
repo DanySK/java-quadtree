@@ -10,7 +10,7 @@ os:
   - osx
   - windows
   - *reference_os
-dist: bionic
+
 addons:
   apt:
     packages:
