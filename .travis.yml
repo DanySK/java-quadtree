@@ -1,55 +1,55 @@
-reference_jdk: &reference_jdk
+_reference_jdk: &reference_jdk
   'JDK="adopt@1.8"'
-reference_os: &reference_os
+_reference_os: &reference_os
   'linux'
+
 language: bash
+
 git:
   depth: false
+  autocrlf: input
+
 os:
   - osx
   - windows
   - *reference_os
-dist: bionic
 addons:
   apt:
     packages:
       - graphviz
+
 stages:
   - check
   - test
-  - deploy
+  - name: deploy
+    if: type != pull_request AND repo = DanySK/java-quadtree
+
 env:
   global:
     - TERM=dumb
-    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
-    - PUBLISH="false"
-    - OFFICIAL_REPO_SLUG="DanySK/java-quadtree"
-    - NO_WIN_DEFENDER=`curl "${GRAVIS}.disable-windows-defender.sh" --output .no-defender.sh && source .no-defender.sh`
+    - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
+    - GRAVIS="$HOME/gravis"
   matrix:
     - *reference_jdk
     - JDK="adopt-openj9@1.8"
-    - JDK="adopt@1.9"
-    - JDK="adopt@1.10"
     - JDK="adopt@1.11"
     - JDK="adopt-openj9@1.11"
-    - JDK="adopt@1.12"
-    - JDK="adopt-openj9@1.12"
-matrix:
+    - JDK="adopt@"
+    - JDK="adopt-openj9@"
+
+jobs:
   exclude:
     - os: *reference_os
       env: *reference_jdk
-jobs:
+      stage: test
   include:
     - stage: check
       name: "Deep check on reference OS and JDK"
       os: *reference_os
       env:
         - *reference_jdk
-      script:
-        - ./gradlew check
     - stage: deploy
       name: "Reports and deployment"
-      if: repo = env(OFFICIAL_REPO_SLUG) AND type != pull_request
       os: *reference_os
       env:
         - PUBLISH="true"
@@ -64,17 +64,18 @@ jobs:
         - export ORG_GRADLE_PROJECT_signingKey=$(cat secrets.asc)
         - rm secrets.asc
       script:
-        - ./gradlew compileJava
-      after_success:
-        - travis_wait 30 ./gradlew publishAll
+        - travis_retry ./gradlew publishAll
+
 before_install:
-  - curl "${GRAVIS}.install-jdk-travis.sh" --output .install-jdk-travis.sh
-  - source .install-jdk-travis.sh
+  - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
+  - source $GRAVIS/install-jdk
+
 script:
-  - ./gradlew test
+  - travis_retry ./gradlew check
+
 before_cache:
-  - curl "${GRAVIS}.clean_gradle_cache.sh" --output .clean_gradle_cache.sh
-  - bash .clean_gradle_cache.sh
+  - $GRAVIS/clean-gradle-cache
+
 cache:
   directories:
     - $HOME/.gradle/caches/
