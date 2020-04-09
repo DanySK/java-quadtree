@@ -71,7 +71,7 @@ before_install:
   - source $GRAVIS/install-jdk
 
 script:
-  - travis_retry ./gradlew clean check
+  - travis_retry ./gradlew check
 
 before_cache:
   - $GRAVIS/clean-gradle-cache
