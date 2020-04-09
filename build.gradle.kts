@@ -32,6 +32,22 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+spotbugs {
+    setEffort("max")
+    setReportLevel("low")
+    showProgress.set(true)
+    val excludeFile = File("${project.rootProject.projectDir}/config/spotbugs/excludes.xml")
+    if (excludeFile.exists()) {
+        excludeFilter.set(excludeFile)
+    }
+}
+
+tasks.withType<com.github.spotbugs.snom.SpotBugsTask> {
+    reports {
+        create("html") { enabled = true }
+    }
+}
+
 pmd {
     ruleSets = listOf()
     ruleSetConfig = resources.text.fromFile("${project.rootProject.projectDir}/config/pmd/pmd.xml")
