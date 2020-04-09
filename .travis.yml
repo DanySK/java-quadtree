@@ -4,8 +4,11 @@ _reference_os: &reference_os
   'linux'
 
 language: bash
+
 git:
   depth: false
+  autocrlf: input
+
 os:
   - osx
   - windows
