@@ -7,12 +7,11 @@ plugins {
     `project-report`
     `build-dashboard`
     jacoco
-//    id("com.github.spotbugs") version Versions.com_github_spotbugs_gradle_plugin
-    id("de.fayard.buildSrcVersions") version Versions.de_fayard_buildsrcversions_gradle_plugin
-    id("org.danilopianini.git-sensitive-semantic-versioning") version Versions.org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin
-    id("org.danilopianini.javadoc.io-linker") version Versions.org_danilopianini_javadoc_io_linker_gradle_plugin
-    id("org.danilopianini.publish-on-central") version Versions.org_danilopianini_publish_on_central_gradle_plugin
-    id("org.jlleitschuh.gradle.ktlint") version Versions.org_jlleitschuh_gradle_ktlint_gradle_plugin
+    id("com.github.spotbugs")
+    id("org.danilopianini.git-sensitive-semantic-versioning")
+    id("org.danilopianini.javadoc.io-linker")
+    id("org.danilopianini.publish-on-central")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 gitSemVer {
