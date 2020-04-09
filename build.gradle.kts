@@ -1,5 +1,3 @@
-import com.github.spotbugs.SpotBugsTask
-
 plugins {
     `java-library`
     checkstyle
@@ -9,7 +7,7 @@ plugins {
     `project-report`
     `build-dashboard`
     jacoco
-    id("com.github.spotbugs") version Versions.com_github_spotbugs_gradle_plugin
+//    id("com.github.spotbugs") version Versions.com_github_spotbugs_gradle_plugin
     id("de.fayard.buildSrcVersions") version Versions.de_fayard_buildsrcversions_gradle_plugin
     id("org.danilopianini.git-sensitive-semantic-versioning") version Versions.org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin
     id("org.danilopianini.javadoc.io-linker") version Versions.org_danilopianini_javadoc_io_linker_gradle_plugin
@@ -33,20 +31,6 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-tasks.withType<SpotBugsTask> {
-    reports {
-        xml.setEnabled(false)
-        html.setEnabled(true)
-    }
-    ignoreFailures = false
-    effort = "max"
-    reportLevel = "low"
-    File("${project.rootProject.projectDir}/config/spotbugs/excludes.xml")
-        .takeIf { it.exists() }
-        ?.also { excludeFilterConfig = project.resources.text.fromFile(it) }
-        ?.also { println(it) }
 }
 
 pmd {
