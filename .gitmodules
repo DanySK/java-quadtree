@@ -1,0 +1,3 @@
+[submodule "config/pmd"]
+	path = config/pmd
+	url = git@github.com:DanySK/pmd-configuration.git
