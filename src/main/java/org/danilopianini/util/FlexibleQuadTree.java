@@ -20,6 +20,7 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import com.google.common.base.Optional;
@@ -528,7 +529,8 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
             if (obj instanceof QuadTreeEntry<?>) {
                 final QuadTreeEntry<?> e = (QuadTreeEntry<?>) obj;
                 if (samePosition(e)) {
-                    return element == e.element || element != null && element.equals(e.element);
+                    // NOPMD: Pointer comparison intended
+                    return Objects.equals(element, e.element);
                 }
                 return false;
             }
