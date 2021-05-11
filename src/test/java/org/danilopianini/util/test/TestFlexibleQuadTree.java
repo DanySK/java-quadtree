@@ -133,6 +133,7 @@ public class TestFlexibleQuadTree {
      * This bug emerged during the experiments of Coordination 2016.
      */
     @Test
+    @SuppressWarnings("PMD.UseUnderscoresInNumericLiterals")
     public void testCoordinationBug() {
         final SpatialIndex<Object> qt = new FlexibleQuadTree<>();
         // CHECKSTYLE: MagicNumber OFF
