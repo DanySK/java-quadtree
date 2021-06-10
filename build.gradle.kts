@@ -25,6 +25,7 @@ repositories {
 dependencies {
     implementation("com.google.guava:guava:_")
     testImplementation("junit:junit:_")
+    spotbugs("com.github.spotbugs:spotbugs:_")
 }
 
 java {
