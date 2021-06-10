@@ -1,6 +1,10 @@
 name: CI
 on:
   push:
+    tags: '*'
+    branches-ignore:
+      - 'autodelivery**'
+      - 'bump-**'
   pull_request:
   schedule:
     - cron: '0 3 * * SUN'
@@ -128,7 +132,7 @@ jobs:
   Automerge:
     needs: CI-Complete
     runs-on: ubuntu-latest
-    if: always() && github.event_name == 'push'
+    if: success()
     steps:
       - name: automerge
         uses: "DanySK/yaagha@master"
