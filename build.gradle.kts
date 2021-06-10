@@ -23,9 +23,11 @@ repositories {
 }
 
 dependencies {
+    val spotbugsLibrary = "com.github.spotbugs:spotbugs:_"
     implementation("com.google.guava:guava:_")
+    testCompileOnly(spotbugsLibrary)
     testImplementation("junit:junit:_")
-    spotbugs("com.github.spotbugs:spotbugs:_")
+    spotbugs(spotbugsLibrary)
 }
 
 java {
