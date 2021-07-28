@@ -1,10 +1,21 @@
-import de.fayard.dependencies.bootstrapRefreshVersionsAndDependencies
+import org.danilopianini.VersionAliases.justAdditionalAliases
 
-buildscript {
-    repositories { gradlePluginPortal() }
-    dependencies.classpath("de.fayard:dependencies:+")
+plugins {
+    id("de.fayard.refreshVersions") version "0.10.1"
 }
 
-bootstrapRefreshVersionsAndDependencies()
+refreshVersions {
+    extraArtifactVersionKeyRules = justAdditionalAliases
+}
+
+buildscript {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.danilopianini:refreshversions-aliases:+")
+    }
+}
 
 rootProject.name = "java-quadtree"
