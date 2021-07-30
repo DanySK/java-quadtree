@@ -54,8 +54,8 @@ pmd {
 
 group = "org.danilopianini"
 publishOnCentral {
-    projectDescription.set("Java spatial indexing tools")
-    projectLongName.set("Java QuadTree")
+    projectDescription = "Java spatial indexing tools"
+    projectLongName = "Java QuadTree"
 }
 
 if (System.getenv("CI") == true.toString()) {
