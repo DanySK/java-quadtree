@@ -6,13 +6,10 @@
  *******************************************************************************/
 package org.danilopianini.util;
 
-import static java.lang.Math.ceil;
-import static java.lang.Math.floor;
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-import static java.lang.Math.nextDown;
-import static java.lang.Math.nextUp;
+import com.google.common.base.Optional;
+import com.google.common.hash.Hashing;
 
+import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,10 +19,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
-import com.google.common.base.Optional;
-import com.google.common.hash.Hasher;
-import com.google.common.hash.Hashing;
+import static java.lang.Math.ceil;
+import static java.lang.Math.floor;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.lang.Math.nextDown;
+import static java.lang.Math.nextUp;
 
 /**
  * 
@@ -539,12 +538,14 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
         }
 
         @Override
+        @SuppressWarnings("UnstableApiUsage")
         public int hashCode() {
-            final Hasher hasher = Hashing.murmur3_32().newHasher();
-            hasher.putDouble(x);
-            hasher.putDouble(y);
-            hasher.putInt(element.hashCode());
-            return hasher.hash().asInt();
+            return Hashing.murmur3_32_fixed().newHasher()
+                .putDouble(x)
+                .putDouble(y)
+                .putInt(element.hashCode())
+                .hash()
+                .asInt();
         }
 
         public boolean isIn(final double sx, final double sy, final double fx, final double fy) {
