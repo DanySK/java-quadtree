@@ -99,7 +99,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     private FlexibleQuadTree<E> create(
             final double minx, final double maxx, final double miny, final double maxy,
             final FlexibleQuadTree<E> father) {
-        return new FlexibleQuadTree<E>(minx, maxx, miny, maxy, getMaxElementsNumber(), root, father);
+        return new FlexibleQuadTree<>(minx, maxx, miny, maxy, getMaxElementsNumber(), root, father);
     }
 
     private void createChildIfAbsent(final Child c) {
