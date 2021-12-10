@@ -508,7 +508,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     private enum Child {
-        TR, BR, BL, TL;
+        TR, BR, BL, TL
     }
 
     private static class QuadTreeEntry<E> implements Serializable {
