@@ -28,7 +28,7 @@ import static java.lang.Math.nextUp;
 
 /**
  * 
- * @param <E>
+ * @param <E> the type of objects stored in the quadtree
  */
 public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
@@ -98,7 +98,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     private FlexibleQuadTree<E> create(
             final double minx, final double maxx, final double miny, final double maxy,
             final FlexibleQuadTree<E> father) {
-        return new FlexibleQuadTree<E>(minx, maxx, miny, maxy, getMaxElementsNumber(), root, father);
+        return new FlexibleQuadTree<>(minx, maxx, miny, maxy, getMaxElementsNumber(), root, father);
     }
 
     private void createChildIfAbsent(final Child c) {
@@ -373,7 +373,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     /**
-     * Same of {@link #query(double[]...)}, but with explicit parameters.
+     * Same of querying with arrays, but with explicit parameters.
      * 
      * @param x1
      *            Rectangle X coordinate of the first point
@@ -507,7 +507,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     private enum Child {
-        TR, BR, BL, TL;
+        TR, BR, BL, TL
     }
 
     private static class QuadTreeEntry<E> implements Serializable {
