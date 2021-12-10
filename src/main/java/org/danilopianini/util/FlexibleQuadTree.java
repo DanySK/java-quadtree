@@ -200,9 +200,10 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
                 insertNode(e, x, y);
                 return;
             }
-            double minx, miny, maxx, maxy;
-            minx = miny = Double.POSITIVE_INFINITY;
-            maxx = maxy = Double.NEGATIVE_INFINITY;
+            double minx = Double.POSITIVE_INFINITY;
+            double miny = Double.POSITIVE_INFINITY;
+            double maxx = Double.NEGATIVE_INFINITY;
+            double maxy = Double.NEGATIVE_INFINITY;
             for (final QuadTreeEntry<E> element: elements) {
                 minx = min(minx, element.x);
                 miny = min(miny, element.y);
