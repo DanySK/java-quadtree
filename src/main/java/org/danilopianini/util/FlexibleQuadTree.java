@@ -29,7 +29,7 @@ import com.google.common.hash.Hashing;
 
 /**
  * 
- * @param <E>
+ * @param <E> the type of objects stored in the quadtree
  */
 public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
