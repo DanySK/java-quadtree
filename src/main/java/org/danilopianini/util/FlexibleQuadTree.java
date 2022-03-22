@@ -6,16 +6,15 @@
  *******************************************************************************/
 package org.danilopianini.util;
 
-import com.google.common.base.Optional;
 import com.google.common.hash.Hashing;
 
 import javax.annotation.Nonnull;
 import java.io.Serializable;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
+import java.util.EnumMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,22 +26,20 @@ import static java.lang.Math.nextDown;
 import static java.lang.Math.nextUp;
 
 /**
- * 
  * @param <E> the type of objects stored in the quadtree
  */
-public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
+public final class FlexibleQuadTree<E> implements SpatialIndex<E>
+{
 
     /**
      * Default maximum number of entries per node.
      */
     public static final int DEFAULT_CAPACITY = 10;
     private static final long serialVersionUID = 0L;
-
-    private Rectangle2D bounds;
-    private final List<Optional<FlexibleQuadTree<E>>> children = new ArrayList<>(Collections.nCopies(4, Optional.absent()));
-    private boolean childrenCreated;
+    private final EnumMap<Child, FlexibleQuadTree<E>> children;
     private final Deque<QuadTreeEntry<E>> elements;
     private final int maxElements;
+    private Rectangle2D bounds;
     private FlexibleQuadTree<E> parent;
 
     /**
@@ -69,15 +66,15 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
         if (elemPerQuad < 2) {
             throw new IllegalArgumentException("At least two elements per quadtree are required for this index to work properly");
         }
-        elements = new LinkedList<>();
+        elements = new ArrayDeque<>();
+        children = new EnumMap<>(Child.class);
         maxElements = elemPerQuad;
         parent = parentNode;
         root = rootNode == null ? this : rootNode;
     }
 
     /**
-     * @param elemPerQuad
-     *            maximum number of elements per quad
+     * @param elemPerQuad maximum number of elements per quad
      */
     public FlexibleQuadTree(final int elemPerQuad) {
         this(elemPerQuad, null, null);
@@ -102,9 +99,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     private void createChildIfAbsent(final Child c) {
-        if (!children.get(c.ordinal()).isPresent()) {
-            setChild(c, create(minX(c), maxX(c), minY(c), maxY(c), this));
-        }
+        children.putIfAbsent(c, create(minX(c), maxX(c), minY(c), maxY(c), this));
     }
 
     private void createParent(final double x, final double y) {
@@ -150,10 +145,6 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
         root.subdivide();
     }
 
-    private FlexibleQuadTree<E> getChild(final Child c) {
-        return children.get(c.ordinal()).get();
-    }
-
     @Override
     public int getDimensions() {
         return 2;
@@ -164,13 +155,6 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
      */
     public int getMaxElementsNumber() {
         return maxElements;
-    }
-
-    private boolean hasChildren() {
-        if (!childrenCreated) {
-            childrenCreated = children.stream().allMatch(Optional::isPresent);
-        }
-        return childrenCreated;
     }
 
     private boolean hasSpace() {
@@ -185,13 +169,10 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     /**
      * Same of {@link #insert(Object, double...)}, but with explicit parameters.
-     * 
-     * @param e
-     *            element
-     * @param x
-     *            X
-     * @param y
-     *            Y
+     *
+     * @param e element
+     * @param x X
+     * @param y Y
      */
     public void insert(final E e, final double x, final double y) {
         if (bounds == null) {
@@ -203,7 +184,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
             double miny = Double.POSITIVE_INFINITY;
             double maxx = Double.NEGATIVE_INFINITY;
             double maxy = Double.NEGATIVE_INFINITY;
-            for (final QuadTreeEntry<E> element: elements) {
+            for (final QuadTreeEntry<E> element : elements) {
                 minx = min(minx, element.x);
                 miny = min(miny, element.y);
                 maxx = max(maxx, element.x);
@@ -219,8 +200,9 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
          * I must insert starting from the root. If the root does not contain
          * the coordinates, then the tree should be expanded upwards
          */
-        for (; !root.contains(x, y); root = root.root) {
+        while (!root.contains(x, y)) {
             root.createParent(x, y);
+            root = root.root;
         }
         root.insertHere(e, x, y);
     }
@@ -229,7 +211,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
         if (hasSpace()) {
             insertNode(e, x, y);
         } else {
-            if (!hasChildren()) {
+            if (children.isEmpty()) {
                 subdivide();
             }
             selectChild(x, y).insertHere(e, x, y);
@@ -247,14 +229,14 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     private double maxX(final Child c) {
         switch (c) {
-        case TR:
-        case BR:
-            return maxX();
-        case BL:
-        case TL:
-            return centerX();
-        default:
-            throw new IllegalStateException();
+            case TR:
+            case BR:
+                return maxX();
+            case BL:
+            case TL:
+                return centerX();
+            default:
+                throw new IllegalStateException();
         }
     }
 
@@ -264,14 +246,14 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     private double maxY(final Child c) {
         switch (c) {
-        case BL:
-        case BR:
-            return centerY();
-        case TR:
-        case TL:
-            return maxY();
-        default:
-            throw new IllegalStateException();
+            case BL:
+            case BR:
+                return centerY();
+            case TR:
+            case TL:
+                return maxY();
+            default:
+                throw new IllegalStateException();
         }
     }
 
@@ -281,14 +263,14 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     private double minX(final Child c) {
         switch (c) {
-        case TR:
-        case BR:
-            return centerX();
-        case BL:
-        case TL:
-            return minX();
-        default:
-            throw new IllegalStateException();
+            case TR:
+            case BR:
+                return centerX();
+            case BL:
+            case TL:
+                return minX();
+            default:
+                throw new IllegalStateException();
         }
     }
 
@@ -298,31 +280,27 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     private double minY(final Child c) {
         switch (c) {
-        case BL:
-        case BR:
-            return minY();
-        case TR:
-        case TL:
-            return centerY();
-        default:
-            throw new IllegalStateException();
+            case BL:
+            case BR:
+                return minY();
+            case TR:
+            case TL:
+                return centerY();
+            default:
+                throw new IllegalStateException();
         }
     }
 
     /**
      * Same of {@link #move(Object, double[], double[])}, but with explicit
      * parameters.
-     * 
-     * @param e
-     *            the element
-     * @param sx
-     *            the start x
-     * @param sy
-     *            the start y
-     * @param fx
-     *            the final x
-     * @param fy
-     *            the final y
+     *
+     * @param e  the element
+     * @param sx the start x
+     * @param sy the start y
+     * @param fx the final x
+     * @param fy the final y
+     *
      * @return true if the element is found and no error occurred
      */
     public boolean move(final E e, final double sx, final double sy, final double fx, final double fy) {
@@ -353,8 +331,8 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
                      */
                     cur.insertNode(e, fx, fy);
                 } else if (cur.parent == null
-                        || !cur.parent.contains(fx, fy)
-                        || !cur.swapMostStatic(e, fx, fy)) {
+                           || !cur.parent.contains(fx, fy)
+                           || !cur.swapMostStatic(e, fx, fy)) {
                     /*
                      * In case:
                      *  - we are the root
@@ -365,7 +343,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
                 }
                 return true;
             }
-            if (!cur.hasChildren()) {
+            if (cur.children.isEmpty()) {
                 return false;
             }
         }
@@ -374,15 +352,12 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     /**
      * Same of querying with arrays, but with explicit parameters.
-     * 
-     * @param x1
-     *            Rectangle X coordinate of the first point
-     * @param y1
-     *            Rectangle Y coordinate of the first point
-     * @param x2
-     *            Rectangle X coordinate of the second point
-     * @param y2
-     *            Rectangle Y coordinate of the second point
+     *
+     * @param x1 Rectangle X coordinate of the first point
+     * @param y1 Rectangle Y coordinate of the first point
+     * @param x2 Rectangle X coordinate of the second point
+     * @param y2 Rectangle Y coordinate of the second point
+     *
      * @return {@link List} of Objects in range.
      */
     public List<E> query(final double x1, final double y1, final double x2, final double y2) {
@@ -396,18 +371,18 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     private void query(// NOPMD: False positive
-            final double sx, final double sy, final double fx, final double fy, final List<E> results) {
-        assert !(bounds == null && hasChildren());
+                       final double sx, final double sy, final double fx, final double fy, final List<E> results) {
+        assert !(bounds == null && !children.isEmpty());
         if (bounds == null || bounds.intersects(sx, sy, fx, fy)) {
             for (final QuadTreeEntry<E> entry : elements) {
                 if (entry.isIn(sx, sy, fx, fy)) {
                     results.add(entry.element);
                 }
             }
-            if (hasChildren()) {
-                for (final Optional<FlexibleQuadTree<E>> childOpt: children) {
-                    childOpt.get().query(sx, sy, fx, fy, results);
-                }
+
+            // If there are no children, this will skip them.
+            for (final FlexibleQuadTree<E> childOpt : children.values()) {
+                childOpt.query(sx, sy, fx, fy, results);
             }
         }
     }
@@ -428,13 +403,11 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     /**
      * Same of {@link #remove(Object, double...)} with explicit parameters.
-     * 
-     * @param e
-     *            Element to remove
-     * @param x
-     *            X position of the element
-     * @param y
-     *            Y position of the element
+     *
+     * @param e Element to remove
+     * @param x X position of the element
+     * @param y Y position of the element
+     *
      * @return true if the element has been found and removed
      */
     public boolean remove(final E e, final double x, final double y) {
@@ -449,29 +422,26 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     private boolean removeInChildren(final E e, final double x, final double y) {
-        return children.stream()
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .anyMatch(c -> c.removeHere(e, x, y));
+        return children.values().stream().anyMatch(c -> c.removeHere(e, x, y));
     }
 
     private FlexibleQuadTree<E> selectChild(final double x, final double y) {
-        assert hasChildren();
+        assert !children.isEmpty();
         if (x < centerX()) {
             if (y < centerY()) {
-                return getChild(Child.BL);
+                return children.get(Child.BL);
             }
-            return getChild(Child.TL);
+            return children.get(Child.TL);
         } else {
             if (y < centerY()) {
-                return getChild(Child.BR);
+                return children.get(Child.BR);
             }
-            return getChild(Child.TR);
+            return children.get(Child.TR);
         }
     }
 
     private void setChild(final Child c, final FlexibleQuadTree<E> child) {
-        if (children.set(c.ordinal(), Optional.of(child)).isPresent()) {
+        if (children.put(c, child) != null) {
             throw new IllegalStateException();
         }
         child.parent = this;
@@ -541,11 +511,11 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
         @SuppressWarnings("UnstableApiUsage")
         public int hashCode() {
             return Hashing.murmur3_32_fixed().newHasher()
-                .putDouble(x)
-                .putDouble(y)
-                .putInt(element.hashCode())
-                .hash()
-                .asInt();
+                          .putDouble(x)
+                          .putDouble(y)
+                          .putInt(element.hashCode())
+                          .hash()
+                          .asInt();
         }
 
         public boolean isIn(final double sx, final double sy, final double fx, final double fy) {
