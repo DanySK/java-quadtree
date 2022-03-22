@@ -66,7 +66,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E>
         if (elemPerQuad < 2) {
             throw new IllegalArgumentException("At least two elements per quadtree are required for this index to work properly");
         }
-        elements = new ArrayDeque<>();
+        elements = new ArrayDeque<>(DEFAULT_CAPACITY);
         children = new EnumMap<>(Child.class);
         maxElements = elemPerQuad;
         parent = parentNode;
