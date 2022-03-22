@@ -16,6 +16,7 @@ import java.util.Deque;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static java.lang.Math.ceil;
@@ -36,7 +37,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E>
      */
     public static final int DEFAULT_CAPACITY = 10;
     private static final long serialVersionUID = 0L;
-    private final EnumMap<Child, FlexibleQuadTree<E>> children;
+    private final Map<Child, FlexibleQuadTree<E>> children;
     private final Deque<QuadTreeEntry<E>> elements;
     private final int maxElements;
     private Rectangle2D bounds;
