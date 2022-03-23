@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.EnumMap;
 import java.util.Iterator;
@@ -467,6 +468,7 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     private boolean swapMostStatic(final E e, final double fx, final double fy) {
         assert parent != null : "Tried to swap on a null parent.";
+
         final Iterator<QuadTreeEntry<E>> iterator = parent.elements.descendingIterator();
         while (iterator.hasNext()) {
             final QuadTreeEntry<E> target = iterator.next();
@@ -513,24 +515,20 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
         double minY;
         double maxX;
         double maxY;
+        double centerX;
+        double centerY;
 
         Rectangle2D(final double sx, final double sy, final double fx, final double fy) {
             minX = min(sx, fx);
             minY = min(sy, fy);
             maxX = max(sx, fx);
             maxY = max(sy, fy);
+            centerX = minX + (maxX - minX) / 2;
+            centerY = minY + (maxY - minY) / 2;
         }
 
         public boolean contains(final double x, final double y) {
             return x >= minX && y >= minY && x < maxX && y < maxY;
-        }
-
-        public double getCenterX() {
-            return minX + (maxX - minX) / 2;
-        }
-
-        public double getCenterY() {
-            return minY + (maxY - minY) / 2;
         }
 
         public boolean intersects(final double sx, final double sy, final double fx, final double fy) {
