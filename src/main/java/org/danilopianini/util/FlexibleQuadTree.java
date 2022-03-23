@@ -29,7 +29,7 @@ import static java.lang.Math.nextUp;
 /**
  * @param <E> the type of objects stored in the quadtree
  */
-public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
+public class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     /**
      * Default maximum number of entries per node.
