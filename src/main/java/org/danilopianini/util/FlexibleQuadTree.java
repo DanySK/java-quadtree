@@ -6,20 +6,18 @@
  *******************************************************************************/
 package org.danilopianini.util;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Value;
+import com.google.common.hash.Hashing;
 
 import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static java.lang.Math.ceil;
 import static java.lang.Math.floor;
@@ -31,7 +29,7 @@ import static java.lang.Math.nextUp;
 /**
  * @param <E> the type of objects stored in the quadtree
  */
-public class FlexibleQuadTree<E> implements SpatialIndex<E> {
+public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     /**
      * Default maximum number of entries per node.
@@ -40,12 +38,7 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
     private static final long serialVersionUID = 0L;
     private final Map<Child, FlexibleQuadTree<E>> children;
     private final Deque<QuadTreeEntry<E>> elements;
-
-    /**
-     * Maximum number of elements per node.
-     */
-    @Getter private final int maxElements;
-
+    private final int maxElements;
     private Rectangle2D bounds;
     private FlexibleQuadTree<E> parent;
 
@@ -62,28 +55,6 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
         this(DEFAULT_CAPACITY);
     }
 
-    /**
-     * @param elemPerQuad maximum number of elements per quad
-     */
-    public FlexibleQuadTree(final int elemPerQuad) {
-        this(elemPerQuad, null, null);
-    }
-
-    private FlexibleQuadTree(
-            final int elemPerQuad,
-            final FlexibleQuadTree<E> rootNode,
-            final FlexibleQuadTree<E> parentNode
-                            ) {
-        if (elemPerQuad < 2) {
-            throw new IllegalArgumentException("At least two elements per quadtree are required for this index to work properly");
-        }
-        elements = new ArrayDeque<>(DEFAULT_CAPACITY);
-        children = new EnumMap<>(Child.class);
-        maxElements = elemPerQuad;
-        parent = parentNode;
-        root = rootNode == null ? this : rootNode;
-    }
-
     private FlexibleQuadTree(
         final double minx,
         final double maxx,
@@ -95,6 +66,28 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
     ) {
         this(elemPerQuad, rootNode, parentNode);
         bounds = new Rectangle2D(minx, miny, maxx, maxy);
+    }
+
+    private FlexibleQuadTree(
+        final int elemPerQuad,
+        final FlexibleQuadTree<E> rootNode,
+        final FlexibleQuadTree<E> parentNode
+    ) {
+        if (elemPerQuad < 2) {
+            throw new IllegalArgumentException("At least two elements per quadtree are required for this index to work properly");
+        }
+        elements = new ArrayDeque<>(DEFAULT_CAPACITY);
+        children = new EnumMap<>(Child.class);
+        maxElements = elemPerQuad;
+        parent = parentNode;
+        root = rootNode == null ? this : rootNode;
+    }
+
+    /**
+     * @param elemPerQuad maximum number of elements per quad
+     */
+    public FlexibleQuadTree(final int elemPerQuad) {
+        this(elemPerQuad, null, null);
     }
 
     private double centerX() {
@@ -116,7 +109,7 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
         final double maxy,
         final FlexibleQuadTree<E> father
     ) {
-        return new FlexibleQuadTree<>(minx, maxx, miny, maxy, getMaxElements(), root, father);
+        return new FlexibleQuadTree<>(minx, maxx, miny, maxy, getMaxElementsNumber(), root, father);
     }
 
     private void createChildIfAbsent(final Child c) {
@@ -169,6 +162,13 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
     @Override
     public int getDimensions() {
         return 2;
+    }
+
+    /**
+     * @return the maximum number of elements per node
+     */
+    public int getMaxElementsNumber() {
+        return maxElements;
     }
 
     private boolean hasSpace() {
@@ -378,7 +378,11 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
      */
     public List<E> query(final double x1, final double y1, final double x2, final double y2) {
         final List<E> result = new ArrayList<>();
-        root.query(min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2), result);
+        final double sx = min(x1, x2);
+        final double sy = min(y1, y2);
+        final double fx = max(x1, x2);
+        final double fy = max(y1, y2);
+        root.query(sx, sy, fx, fy, result);
         return result;
     }
 
@@ -446,7 +450,10 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
         if (x < centerX()) {
             return y < centerY() ? children.get(Child.BL) : children.get(Child.TL);
         } else {
-            return y < centerY() ? children.get(Child.BR) : children.get(Child.TR);
+            if (y < centerY()) {
+                return children.get(Child.BR);
+            }
+            return children.get(Child.TR);
         }
     }
 
@@ -465,7 +472,6 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     private boolean swapMostStatic(final E e, final double fx, final double fy) {
         assert parent != null : "Tried to swap on a null parent.";
-
         final Iterator<QuadTreeEntry<E>> iterator = parent.elements.descendingIterator();
         while (iterator.hasNext()) {
             final QuadTreeEntry<E> target = iterator.next();
@@ -491,45 +497,105 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
         TR, BR, BL, TL
     }
 
-    @Value
     private static class QuadTreeEntry<E> implements Serializable {
         private static final long serialVersionUID = 9021533648086596986L;
+        private final E element;
+        private final double x, y;
 
-        E element;
-        double x;
-        double y;
+        QuadTreeEntry(final E el, final double xp, final double yp) {
+            element = el;
+            x = xp;
+            y = yp;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (obj instanceof QuadTreeEntry<?>) {
+                final QuadTreeEntry<?> e = (QuadTreeEntry<?>) obj;
+                if (samePosition(e)) {
+                    // NOPMD: Pointer comparison intended
+                    return Objects.equals(element, e.element);
+                }
+                return false;
+            }
+            return false;
+        }
+
+        @Override
+        @SuppressWarnings("UnstableApiUsage")
+        public int hashCode() {
+            return Hashing.murmur3_32_fixed().newHasher()
+                .putDouble(x)
+                .putDouble(y)
+                .putInt(element.hashCode())
+                .hash()
+                .asInt();
+        }
 
         public boolean isIn(final double sx, final double sy, final double fx, final double fy) {
             return x >= sx && x < fx && y >= sy && y < fy;
         }
+
+        public boolean samePosition(final QuadTreeEntry<?> target) {
+            return x == target.x && y == target.y;
+        }
+
+        @Override
+        public String toString() {
+            return element.toString() + "@[" + x + ", " + y + "]";
+        }
     }
 
-    @Value
     private static class Rectangle2D implements Serializable {
         private static final long serialVersionUID = -7890062202005580979L;
-
-        double minX;
-        double minY;
-        double maxX;
-        double maxY;
-        @EqualsAndHashCode.Exclude double centerX;
-        @EqualsAndHashCode.Exclude double centerY;
+        private final double minx, miny, maxx, maxy;
 
         Rectangle2D(final double sx, final double sy, final double fx, final double fy) {
-            minX = min(sx, fx);
-            minY = min(sy, fy);
-            maxX = max(sx, fx);
-            maxY = max(sy, fy);
-            centerX = minX + (maxX - minX) / 2;
-            centerY = minY + (maxY - minY) / 2;
+            minx = min(sx, fx);
+            miny = min(sy, fy);
+            maxx = max(sx, fx);
+            maxy = max(sy, fy);
         }
 
         public boolean contains(final double x, final double y) {
-            return x >= minX && y >= minY && x < maxX && y < maxY;
+            return x >= minx && y >= miny && x < maxx && y < maxy;
+        }
+
+        public double getCenterX() {
+            return minx + (maxx - minx) / 2;
+        }
+
+        public double getCenterY() {
+            return miny + (maxy - miny) / 2;
+        }
+
+        public double getMaxX() {
+            return maxx;
+        }
+
+        public double getMaxY() {
+            return maxy;
+        }
+
+        public double getMinX() {
+            return minx;
+        }
+
+        public double getMinY() {
+            return miny;
         }
 
         public boolean intersects(final double sx, final double sy, final double fx, final double fy) {
-            return fx >= minX && fy >= minY && sx < maxX && sy < maxY;
+            return fx >= minx && fy >= miny && sx < maxx && sy < maxy;
+        }
+
+        @Override
+        public String toString() {
+            return "[" + minx + "," + miny + " - " + maxx + "," + maxy + "]";
         }
     }
+
 }
