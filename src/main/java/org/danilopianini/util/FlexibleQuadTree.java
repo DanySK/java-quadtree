@@ -344,9 +344,11 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
                      * Moved within the same quadrant.
                      */
                     cur.insertNode(e, fx, fy);
-                } else if (cur.parent == null
-                           || !cur.parent.contains(fx, fy)
-                           || !cur.swapMostStatic(e, fx, fy)) {
+                } else if (
+                    cur.parent == null
+                    || !cur.parent.contains(fx, fy)
+                    || !cur.swapMostStatic(e, fx, fy)
+                ) {
                     /*
                      * In case:
                      *  - we are the root
@@ -385,7 +387,12 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     private void query(// NOPMD: False positive
-                       final double sx, final double sy, final double fx, final double fy, final List<E> results) {
+        final double sx,
+        final double sy,
+        final double fx,
+        final double fy,
+        final List<E> results
+    ) {
         assert !(bounds == null && !children.isEmpty());
         if (bounds == null || bounds.intersects(sx, sy, fx, fy)) {
             for (final QuadTreeEntry<E> entry : elements) {
@@ -393,7 +400,6 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
                     results.add(entry.element);
                 }
             }
-
             // If there are no children, this will skip them.
             for (final FlexibleQuadTree<E> childOpt : children.values()) {
                 childOpt.query(sx, sy, fx, fy, results);
