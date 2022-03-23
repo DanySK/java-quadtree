@@ -29,8 +29,7 @@ import static java.lang.Math.nextUp;
 /**
  * @param <E> the type of objects stored in the quadtree
  */
-public final class FlexibleQuadTree<E> implements SpatialIndex<E>
-{
+public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     /**
      * Default maximum number of entries per node.
@@ -57,13 +56,23 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E>
     }
 
     private FlexibleQuadTree(
-            final double minx, final double maxx, final double miny, final double maxy,
-            final int elemPerQuad, final FlexibleQuadTree<E> rootNode, final FlexibleQuadTree<E> parentNode) {
+        final double minx,
+        final double maxx,
+        final double miny,
+        final double maxy,
+        final int elemPerQuad,
+        final FlexibleQuadTree<E> rootNode,
+        final FlexibleQuadTree<E> parentNode
+    ) {
         this(elemPerQuad, rootNode, parentNode);
         bounds = new Rectangle2D(minx, miny, maxx, maxy);
     }
 
-    private FlexibleQuadTree(final int elemPerQuad, final FlexibleQuadTree<E> rootNode, final FlexibleQuadTree<E> parentNode) {
+    private FlexibleQuadTree(
+        final int elemPerQuad,
+        final FlexibleQuadTree<E> rootNode,
+        final FlexibleQuadTree<E> parentNode
+    ) {
         if (elemPerQuad < 2) {
             throw new IllegalArgumentException("At least two elements per quadtree are required for this index to work properly");
         }
@@ -94,8 +103,12 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E>
     }
 
     private FlexibleQuadTree<E> create(
-            final double minx, final double maxx, final double miny, final double maxy,
-            final FlexibleQuadTree<E> father) {
+        final double minx,
+        final double maxx,
+        final double miny,
+        final double maxy,
+        final FlexibleQuadTree<E> father
+    ) {
         return new FlexibleQuadTree<>(minx, maxx, miny, maxy, getMaxElementsNumber(), root, father);
     }
 
@@ -512,11 +525,11 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E>
         @SuppressWarnings("UnstableApiUsage")
         public int hashCode() {
             return Hashing.murmur3_32_fixed().newHasher()
-                          .putDouble(x)
-                          .putDouble(y)
-                          .putInt(element.hashCode())
-                          .hash()
-                          .asInt();
+                .putDouble(x)
+                .putDouble(y)
+                .putInt(element.hashCode())
+                .hash()
+                .asInt();
         }
 
         public boolean isIn(final double sx, final double sy, final double fx, final double fy) {
