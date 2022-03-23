@@ -13,6 +13,13 @@ repositories {
 
 dependencies {
     implementation(libs.guava)
+
+    compileOnly("org.projectlombok:lombok:1.18.22")
+    annotationProcessor("org.projectlombok:lombok:1.18.22")
+
+    testCompileOnly("org.projectlombok:lombok:1.18.22")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.22")
+
     testCompileOnly(libs.spotbugs.annotations)
     testImplementation(libs.junit4)
 }
