@@ -6,6 +6,7 @@
  *******************************************************************************/
 package org.danilopianini.util;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Value;
 
@@ -377,11 +378,7 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
      */
     public List<E> query(final double x1, final double y1, final double x2, final double y2) {
         final List<E> result = new ArrayList<>();
-        final double sx = min(x1, x2);
-        final double sy = min(y1, y2);
-        final double fx = max(x1, x2);
-        final double fy = max(y1, y2);
-        root.query(sx, sy, fx, fy, result);
+        root.query(min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2), result);
         return result;
     }
 
@@ -515,8 +512,8 @@ public class FlexibleQuadTree<E> implements SpatialIndex<E> {
         double minY;
         double maxX;
         double maxY;
-        double centerX;
-        double centerY;
+        @EqualsAndHashCode.Exclude double centerX;
+        @EqualsAndHashCode.Exclude double centerY;
 
         Rectangle2D(final double sx, final double sy, final double fx, final double fy) {
             minX = min(sx, fx);
