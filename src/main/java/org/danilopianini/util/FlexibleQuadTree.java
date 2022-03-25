@@ -378,11 +378,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
      */
     public List<E> query(final double x1, final double y1, final double x2, final double y2) {
         final List<E> result = new ArrayList<>();
-        final double sx = min(x1, x2);
-        final double sy = min(y1, y2);
-        final double fx = max(x1, x2);
-        final double fy = max(y1, y2);
-        root.query(sx, sy, fx, fy, result);
+        root.query(min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2), result);
         return result;
     }
 
@@ -448,15 +444,9 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     private FlexibleQuadTree<E> selectChild(final double x, final double y) {
         assert !children.isEmpty();
         if (x < centerX()) {
-            if (y < centerY()) {
-                return children.get(Child.BL);
-            }
-            return children.get(Child.TL);
+            return y < centerY() ? children.get(Child.BL) : children.get(Child.TL);
         } else {
-            if (y < centerY()) {
-                return children.get(Child.BR);
-            }
-            return children.get(Child.TR);
+            return y < centerY() ? children.get(Child.BR) : children.get(Child.TR);
         }
     }
 
@@ -600,5 +590,4 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
             return "[" + minx + "," + miny + " - " + maxx + "," + maxy + "]";
         }
     }
-
 }
