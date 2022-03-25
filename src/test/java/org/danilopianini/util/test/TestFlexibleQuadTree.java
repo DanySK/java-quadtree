@@ -34,7 +34,7 @@ public class TestFlexibleQuadTree {
         /*
          * Test that everything got inserted
          */
-        startPositions.stream().forEach(o -> qt.insert(TOKEN, o[0], o[1]));
+        startPositions.forEach(o -> qt.insert(TOKEN, o[0], o[1]));
         assertEquals(INSERTIONS, qt.query(-Double.MAX_VALUE, -Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE).size());
         /*
          * Move everything and test that it got moved
@@ -49,9 +49,9 @@ public class TestFlexibleQuadTree {
         /*
          * Remove everything
          */
-        moveToAgain.stream().forEach(o -> assertTrue(qt.remove(TOKEN, o[0], o[1])));
+        moveToAgain.forEach(o -> assertTrue(qt.remove(TOKEN, o[0], o[1])));
         assertEquals(0, qt.query(-Double.MAX_VALUE, -Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE).size());
-        moveToAgain.stream().forEach(o -> assertFalse(qt.remove(o, o[0], o[1])));
+        moveToAgain.forEach(o -> assertFalse(qt.remove(o, o[0], o[1])));
     }
 
     private static void testMove(//NOPMD: false positive
@@ -60,7 +60,7 @@ public class TestFlexibleQuadTree {
             final List<double[]> to) {
         range().forEach(i -> assertTrue(qt.move(TOKEN, from.get(i), to.get(i))));
         assertEquals(INSERTIONS, qt.query(-Double.MAX_VALUE, -Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE).size());
-        from.stream().forEach(o -> assertFalse(qt.remove(TOKEN, o[0], o[1])));
+        from.forEach(o -> assertFalse(qt.remove(TOKEN, o[0], o[1])));
     }
 
     private static IntStream range() {
