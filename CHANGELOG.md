@@ -1,3 +1,10 @@
+### [0.1.9](https://github.com/DanySK/java-quadtree/compare/0.1.8...0.1.9) (2022-03-25)
+
+
+### Performance improvements
+
+* do not create streams for iteration with side effects ([#168](https://github.com/DanySK/java-quadtree/issues/168)) ([71a8fc5](https://github.com/DanySK/java-quadtree/commit/71a8fc5966a26614dba6ceed0e955e919629774e))
+
 ### [0.1.8](https://github.com/DanySK/java-quadtree/compare/0.1.7...0.1.8) (2022-03-23)
 
 
