@@ -5,7 +5,7 @@ spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.7.0"
 
 [plugins]
 gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning:0.3.0"
-java-qa = "org.danilopianini.gradle-java-qa:0.26.0"
+java-qa = "org.danilopianini.gradle-java-qa:0.27.0"
 multiJvmTesting = "org.danilopianini.multi-jvm-test-plugin:0.4.3"
 publishOnCentral = "org.danilopianini.publish-on-central:0.8.3"
 taskTree = "com.dorongold.task-tree:2.1.0"
