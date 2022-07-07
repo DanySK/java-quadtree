@@ -31,8 +31,6 @@ jobs:
   release:
     needs:
       - build
-      - test-alchemist-deployment
-      - test-kt-multiplatform-deployment
     runs-on: ubuntu-latest
     if: >-
       !github.event.repository.fork
