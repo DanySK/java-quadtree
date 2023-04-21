@@ -4,7 +4,7 @@ junit4 = "junit:junit:4.13.2"
 spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.7.3"
 
 [plugins]
-gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:1.1.8"
+gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:1.1.9"
 java-qa = "org.danilopianini.gradle-java-qa:0.44.0"
 multiJvmTesting = "org.danilopianini.multi-jvm-test-plugin:0.4.21"
 publishOnCentral = "org.danilopianini.publish-on-central:5.0.2"
