@@ -1,5 +1,5 @@
 [libraries]
-guava = "com.google.guava:guava:31.1-jre"
+guava = "com.google.guava:guava:32.0.0-jre"
 junit4 = "junit:junit:4.13.2"
 spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.7.3"
 
