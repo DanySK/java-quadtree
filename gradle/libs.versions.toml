@@ -1,7 +1,7 @@
 [libraries]
 guava = "com.google.guava:guava:33.1.0-jre"
 junit4 = "junit:junit:4.13.2"
-spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.8.3"
+spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.8.4"
 
 [plugins]
 gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:3.1.4"
