@@ -11,6 +11,10 @@ repositories {
     mavenCentral()
 }
 
+multiJvm {
+    jvmVersionForCompilation.set(8)
+}
+
 dependencies {
     implementation(libs.guava)
     testCompileOnly(libs.spotbugs.annotations)
