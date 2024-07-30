@@ -508,11 +508,8 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
             }
             if (obj instanceof QuadTreeEntry<?>) {
                 final QuadTreeEntry<?> e = (QuadTreeEntry<?>) obj;
-                if (samePosition(e)) {
-                    // NOPMD: Pointer comparison intended
-                    return Objects.equals(element, e.element);
-                }
-                return false;
+                // NOPMD: Pointer comparison intended
+                return samePosition(e) && Objects.equals(element, e.element);
             }
             return false;
         }
