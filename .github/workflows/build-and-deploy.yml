@@ -16,9 +16,7 @@ jobs:
       - uses: DanySK/build-check-deploy-gradle-action@3.5.25
         with:
           deploy-command: >-
-            ./gradlew uploadJava close drop --parallel
-            || ./gradlew uploadJava close drop --parallel
-            || ./gradlew uploadJava close drop --parallel
+            ./gradlew uploadJava close dropStagingRepositoryOnMavenCentral --parallel
           should-run-codecov: ${{ runner.os == 'Linux' }}
           should-deploy: >-
             ${{
