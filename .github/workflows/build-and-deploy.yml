@@ -17,6 +17,7 @@ jobs:
         with:
           deploy-command: >-
             ./gradlew uploadJava close dropStagingRepositoryOnMavenCentral --parallel
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
           should-run-codecov: ${{ runner.os == 'Linux' }}
           should-deploy: >-
             ${{
