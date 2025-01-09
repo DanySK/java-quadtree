@@ -31,8 +31,9 @@ tasks.withType<Checkstyle>().configureEach {
 
 group = "org.danilopianini"
 publishOnCentral {
-    projectDescription.set("Java spatial indexing tools")
-    projectLongName.set("Java QuadTree")
+    repoOwner = "DanySK"
+    projectDescription = "Java spatial indexing tools"
+    projectLongName = "Java QuadTree"
 }
 
 if (System.getenv("CI") == true.toString()) {
