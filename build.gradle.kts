@@ -16,7 +16,7 @@ multiJvm {
 }
 
 dependencies {
-    implementation(libs.guava)
+    compileOnly(libs.jsr305)
     testCompileOnly(libs.spotbugs.annotations)
     testImplementation(libs.junit4)
 }

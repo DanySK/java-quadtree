@@ -6,8 +6,6 @@
  *******************************************************************************/
 package org.danilopianini.util;
 
-import com.google.common.hash.Hashing;
-
 import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.util.ArrayDeque;
@@ -515,14 +513,8 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
         }
 
         @Override
-        @SuppressWarnings("UnstableApiUsage")
         public int hashCode() {
-            return Hashing.murmur3_32_fixed().newHasher()
-                .putDouble(x)
-                .putDouble(y)
-                .putInt(element.hashCode())
-                .hash()
-                .asInt();
+            return Objects.hash(x, y, element);
         }
 
         public boolean isIn(final double sx, final double sy, final double fx, final double fy) {
