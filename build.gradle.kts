@@ -21,14 +21,6 @@ dependencies {
     testImplementation(libs.junit4)
 }
 
-tasks.withType<Checkstyle>().configureEach {
-    javaLauncher.set(
-        javaToolchains.launcherFor {
-            languageVersion = JavaLanguageVersion.of(multiJvm.latestJavaSupportedByGradle)
-        }
-    )
-}
-
 group = "org.danilopianini"
 publishOnCentral {
     repoOwner = "DanySK"
