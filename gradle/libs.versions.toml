@@ -1,6 +1,6 @@
 [libraries]
 junit4 = "junit:junit:4.13.2"
-spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.8.6"
+spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.9.1"
 jsr305 = "com.google.code.findbugs:jsr305:3.0.2"
 
 [plugins]
