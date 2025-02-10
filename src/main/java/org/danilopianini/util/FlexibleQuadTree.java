@@ -240,7 +240,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     private double maxX(final Child c) {
-        switch (c) {
+        switch (c) { // NOPMD: Java 8 does not perform exhaustive switch checks
             case TR:
             case BR:
                 return maxX();
@@ -257,7 +257,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     private double maxY(final Child c) {
-        switch (c) {
+        switch (c) { // NOPMD: Java 8 does not perform exhaustive switch checks
             case BL:
             case BR:
                 return centerY();
@@ -274,7 +274,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     private double minX(final Child c) {
-        switch (c) {
+        switch (c) { // NOPMD: Java 8 does not perform exhaustive switch checks
             case TR:
             case BR:
                 return centerX();
@@ -291,7 +291,7 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     }
 
     private double minY(final Child c) {
-        switch (c) {
+        switch (c) { // NOPMD: Java 8 does not perform exhaustive switch checks
             case BL:
             case BR:
                 return minY();
