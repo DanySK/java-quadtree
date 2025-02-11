@@ -5,7 +5,7 @@ jsr305 = "com.google.code.findbugs:jsr305:3.0.2"
 
 [plugins]
 gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:4.0.2"
-java-qa = "org.danilopianini.gradle-java-qa:1.93.0"
+java-qa = "org.danilopianini.gradle-java-qa:1.94.0"
 multiJvmTesting = "org.danilopianini.multi-jvm-test-plugin:3.2.2"
 publishOnCentral = "org.danilopianini.publish-on-central:8.0.3"
 taskTree = "com.dorongold.task-tree:4.0.0"
