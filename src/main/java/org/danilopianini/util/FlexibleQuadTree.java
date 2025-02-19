@@ -1,9 +1,9 @@
 /*******************************************************************************
  * Copyright (C) 2009-2017, Danilo Pianini and contributors
  * listed in the project's build.gradle or pom.xml file.
- *
  * This file is distributed under the terms of the Apache License, version 2.0
  *******************************************************************************/
+
 package org.danilopianini.util;
 
 import javax.annotation.Nonnull;
@@ -122,13 +122,13 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
             final double minx = 2 * minX() - maxX();
             if (y < centerY()) {
                 /*
-                 * This will be TR child of the new parent
+                 * This will be the TR child of the new parent
                  */
                 root = create(minx, maxX(), 2 * minY() - maxY(), maxY(), null);
                 root.setChild(Child.TR, this);
             } else {
                 /*
-                 * This will be BR child of the new parent
+                 * This will be the BR child of the new parent
                  */
                 root = create(minx, maxX(), minY(), 2 * maxY() - minY(), null);
                 root.setChild(Child.BR, this);
@@ -137,13 +137,13 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
             final double maxx = 2 * maxX() - minX();
             if (y < centerY()) {
                 /*
-                 * This will be TL child of the new parent
+                 * This will be the TL child of the new parent
                  */
                 root = create(minX(), maxx, 2 * minY() - maxY(), maxY(), null);
                 root.setChild(Child.TL, this);
             } else {
                 /*
-                 * This will be BL child of the new parent
+                 * This will be the BL child of the new parent
                  */
                 root = create(minX(), maxx, minY(), 2 * maxY() - minY(), null);
                 root.setChild(Child.BL, this);
@@ -316,21 +316,6 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
      * @return true if the element is found and no error occurred
      */
     public boolean move(final E e, final double sx, final double sy, final double fx, final double fy) {
-        return moveFromNode(root, e, sx, sy, fx, fy);
-    }
-
-    @Override
-    public boolean move(final E e, final double[] start, final double[] end) {
-        assert start.length == 2;
-        assert end.length == 2;
-        return move(e, start[0], start[1], end[0], end[1]);
-    }
-
-    private boolean moveFromNode(
-            final FlexibleQuadTree<E> root,
-            final E e,
-            final double sx, final double sy,
-            final double fx, final double fy) {
         final QuadTreeEntry<E> toRemove = new QuadTreeEntry<>(e, sx, sy);
         for (FlexibleQuadTree<E> cur = root; cur.contains(sx, sy); cur = cur.selectChild(sx, sy)) {
             if (cur.elements.remove(toRemove)) {
@@ -343,9 +328,9 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
                      */
                     cur.insertNode(e, fx, fy);
                 } else if (
-                    cur.parent == null
-                    || !cur.parent.contains(fx, fy)
-                    || !cur.swapMostStatic(e, fx, fy)
+                        cur.parent == null
+                                || !cur.parent.contains(fx, fy)
+                                || !cur.swapMostStatic(e, fx, fy)
                 ) {
                     /*
                      * In case:
@@ -362,6 +347,13 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean move(final E e, final double[] start, final double[] end) {
+        assert start.length == 2;
+        assert end.length == 2;
+        return move(e, start[0], start[1], end[0], end[1]);
     }
 
     /**
@@ -491,7 +483,8 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
     private static class QuadTreeEntry<E> implements Serializable {
         private static final long serialVersionUID = 9021533648086596986L;
         private final E element;
-        private final double x, y;
+        private final double x;
+        private final double y;
 
         QuadTreeEntry(final E el, final double xp, final double yp) {
             element = el;
@@ -533,7 +526,10 @@ public final class FlexibleQuadTree<E> implements SpatialIndex<E> {
 
     private static class Rectangle2D implements Serializable {
         private static final long serialVersionUID = -7890062202005580979L;
-        private final double minx, miny, maxx, maxy;
+        private final double minx;
+        private final double miny;
+        private final double maxx;
+        private final double maxy;
 
         Rectangle2D(final double sx, final double sy, final double fx, final double fy) {
             minx = min(sx, fx);

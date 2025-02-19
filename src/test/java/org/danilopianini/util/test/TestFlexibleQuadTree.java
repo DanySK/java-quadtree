@@ -24,7 +24,7 @@ public class TestFlexibleQuadTree {
     private static final Object TOKEN = "";
 
     /**
-     * 
+     *
      */
     @Test
     public void testRandom() {
@@ -69,12 +69,12 @@ public class TestFlexibleQuadTree {
 
     private static List<double[]> makeRandomTest(final Random rnd) {
         return range()
-            .mapToObj(i -> new double[] { rnd.nextLong() + rnd.nextDouble(), rnd.nextLong() + rnd.nextDouble() })
+            .mapToObj(i -> new double[] {rnd.nextLong() + rnd.nextDouble(), rnd.nextLong() + rnd.nextDouble()})
             .collect(Collectors.toList());
     }
 
     /**
-     * 
+     *
      */
     @Test
     public void testSubdivide() {

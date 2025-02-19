@@ -4,14 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *
  * @param <E> content of the index
  */
 public interface SpatialIndex<E> extends Serializable {
 
     /**
      * Inserts an element in the {@link SpatialIndex}.
-     * 
+     *
      * @param element
      *            The element to add
      * @param position
@@ -21,7 +20,7 @@ public interface SpatialIndex<E> extends Serializable {
 
     /**
      * Deletes an element from the {@link SpatialIndex}.
-     * 
+     *
      * @param element
      *            The element to add
      * @param position
@@ -32,7 +31,7 @@ public interface SpatialIndex<E> extends Serializable {
 
     /**
      * If an element is moved, updates the {@link SpatialIndex} accordingly.
-     * 
+     *
      * @param element
      *            The element to add
      * @param start
@@ -48,7 +47,7 @@ public interface SpatialIndex<E> extends Serializable {
      * parallelotope. "Parallelotope" is a fancy word for
      * "N-dimensional rectangle". A 2-parallelotope is in fact a rectangle, a
      * 3-parallelotope is a parallelepiped, and so on.
-     * 
+     *
      * @param parallelotope
      *            the space where to search for elements
      * @return the list of elements in this area of the {@link SpatialIndex}.
