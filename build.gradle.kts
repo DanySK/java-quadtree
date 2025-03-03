@@ -1,7 +1,8 @@
 plugins {
-    `java-library`
+    alias(libs.plugins.dokka)
     alias(libs.plugins.gitSemVer)
-    alias(libs.plugins.java.qa)
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.qa)
     alias(libs.plugins.multiJvmTesting)
     alias(libs.plugins.publishOnCentral)
     alias(libs.plugins.taskTree)
@@ -16,9 +17,15 @@ multiJvm {
 }
 
 dependencies {
-    compileOnly(libs.jsr305)
-    testCompileOnly(libs.spotbugs.annotations)
+    implementation(kotlin("stdlib"))
     testImplementation(libs.junit4)
+}
+
+kotlin {
+    compilerOptions {
+        allWarningsAsErrors = true
+        freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn")
+    }
 }
 
 group = "org.danilopianini"
