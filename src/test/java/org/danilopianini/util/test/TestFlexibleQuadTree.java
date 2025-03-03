@@ -9,14 +9,12 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.danilopianini.util.FlexibleQuadTree;
 import org.danilopianini.util.SpatialIndex;
 import org.junit.Test;
 
 /**
  */
-@SuppressFBWarnings(value = "DMI_RANDOM_USED_ONLY_ONCE", justification = "false positive")
 public class TestFlexibleQuadTree {
 
     private static final int INSERTIONS = 100_000;
