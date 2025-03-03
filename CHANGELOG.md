@@ -1,3 +1,74 @@
+## [1.0.0](https://github.com/DanySK/java-quadtree/compare/0.3.0...1.0.0) (2025-03-03)
+
+### ⚠ BREAKING CHANGES
+
+* switch to Kotlin
+
+### Features
+
+* switch to Kotlin ([5224778](https://github.com/DanySK/java-quadtree/commit/5224778c57bce7055e69b64658f41aae73171b4f))
+
+### Dependency updates
+
+* **deps:** update dependency gradle to v8.13 ([#864](https://github.com/DanySK/java-quadtree/issues/864)) ([05a42e3](https://github.com/DanySK/java-quadtree/commit/05a42e3cc86c74ae862961f9bad6d73a281b37f0))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.120 ([#845](https://github.com/DanySK/java-quadtree/issues/845)) ([38f3f74](https://github.com/DanySK/java-quadtree/commit/38f3f7484c2c341e73206f3ffa5173b1310cb360))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.121 ([#846](https://github.com/DanySK/java-quadtree/issues/846)) ([1108824](https://github.com/DanySK/java-quadtree/commit/1108824ad7322126e175a726d426a5ba46f61582))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.122 ([#848](https://github.com/DanySK/java-quadtree/issues/848)) ([39d76ec](https://github.com/DanySK/java-quadtree/commit/39d76ec27c5d4ab38d1d1c5147b554b4383bd927))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.123 ([#853](https://github.com/DanySK/java-quadtree/issues/853)) ([b3762e7](https://github.com/DanySK/java-quadtree/commit/b3762e77bd0a0e486378015a7a1c33dafdd25bff))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.124 ([#854](https://github.com/DanySK/java-quadtree/issues/854)) ([1fb416b](https://github.com/DanySK/java-quadtree/commit/1fb416b6a552a13901b1c92737f86d3d80dd0295))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.125 ([#862](https://github.com/DanySK/java-quadtree/issues/862)) ([d8656e2](https://github.com/DanySK/java-quadtree/commit/d8656e215ab56101851dfd427f86ef4207548801))
+* **deps:** update node.js to 22.14 ([#851](https://github.com/DanySK/java-quadtree/issues/851)) ([487e9d3](https://github.com/DanySK/java-quadtree/commit/487e9d326cce67041b9bdc01dde3d927f194694b))
+* **deps:** update plugin com.gradle.develocity to v3.19.2 ([#859](https://github.com/DanySK/java-quadtree/issues/859)) ([e10d8c1](https://github.com/DanySK/java-quadtree/commit/e10d8c145244354dc4ed55beb7f37973be065725))
+* **deps:** update plugin gitsemver to v3.1.10 ([#836](https://github.com/DanySK/java-quadtree/issues/836)) ([73718d0](https://github.com/DanySK/java-quadtree/commit/73718d0bf78cb48e418aab14cd0d37741a700a30))
+* **deps:** update plugin gitsemver to v3.1.8 ([#831](https://github.com/DanySK/java-quadtree/issues/831)) ([900b1dd](https://github.com/DanySK/java-quadtree/commit/900b1dd4a11da58b504e7725b30d7f6502cdbeda))
+* **deps:** update plugin gitsemver to v3.1.9 ([#833](https://github.com/DanySK/java-quadtree/issues/833)) ([29f1ec6](https://github.com/DanySK/java-quadtree/commit/29f1ec69b95c58243c4dcac6d7616ea4cd6fbd38))
+* **deps:** update plugin gitsemver to v4 ([#837](https://github.com/DanySK/java-quadtree/issues/837)) ([7c90db2](https://github.com/DanySK/java-quadtree/commit/7c90db274fd6bc82665d2c9fc497c89dd4b60deb))
+* **deps:** update plugin gitsemver to v4.0.2 ([#838](https://github.com/DanySK/java-quadtree/issues/838)) ([3c00b81](https://github.com/DanySK/java-quadtree/commit/3c00b81845d35536d6391ae84e86c0c5354ecadc))
+* **deps:** update plugin java-qa to v1.100.0 ([#869](https://github.com/DanySK/java-quadtree/issues/869)) ([f51e0bf](https://github.com/DanySK/java-quadtree/commit/f51e0bff8d38cc2638b3f8055723e192d2ebadd3))
+* **deps:** update plugin java-qa to v1.88.0 ([#828](https://github.com/DanySK/java-quadtree/issues/828)) ([d51a883](https://github.com/DanySK/java-quadtree/commit/d51a8835b50fd112874cfd03c7b3f4d616f7b5fd))
+* **deps:** update plugin java-qa to v1.89.0 ([#832](https://github.com/DanySK/java-quadtree/issues/832)) ([eb13a43](https://github.com/DanySK/java-quadtree/commit/eb13a433ca22b9bd99ff50d601a18bdc6e5d41d8))
+* **deps:** update plugin java-qa to v1.90.0 ([#834](https://github.com/DanySK/java-quadtree/issues/834)) ([ee649e5](https://github.com/DanySK/java-quadtree/commit/ee649e5a8b8764cb3f53c1231e424dcddadd1ac1))
+* **deps:** update plugin java-qa to v1.93.0 ([#849](https://github.com/DanySK/java-quadtree/issues/849)) ([e0ed188](https://github.com/DanySK/java-quadtree/commit/e0ed188474c425d8e8744905c0b32cac90d534b3))
+* **deps:** update plugin java-qa to v1.94.0 ([#850](https://github.com/DanySK/java-quadtree/issues/850)) ([88fbcc8](https://github.com/DanySK/java-quadtree/commit/88fbcc89729584c8f6aadff62aaccd17a875bb2b))
+* **deps:** update plugin java-qa to v1.95.0 ([#852](https://github.com/DanySK/java-quadtree/issues/852)) ([4740ca4](https://github.com/DanySK/java-quadtree/commit/4740ca45f5aa8bb44a6c1402f7ed886414e1d646))
+* **deps:** update plugin java-qa to v1.95.1 ([#855](https://github.com/DanySK/java-quadtree/issues/855)) ([76fa9b2](https://github.com/DanySK/java-quadtree/commit/76fa9b219c207acff67969e5edfafafd74e5657e))
+* **deps:** update plugin java-qa to v1.96.0 ([#857](https://github.com/DanySK/java-quadtree/issues/857)) ([f9d9294](https://github.com/DanySK/java-quadtree/commit/f9d9294a2939fdb8cfe3e15953910ef12988a60c))
+* **deps:** update plugin java-qa to v1.97.2 ([#858](https://github.com/DanySK/java-quadtree/issues/858)) ([1721ea0](https://github.com/DanySK/java-quadtree/commit/1721ea077ae199b31cd5d26b3267fee5941aaed1))
+* **deps:** update plugin java-qa to v1.97.3 ([#861](https://github.com/DanySK/java-quadtree/issues/861)) ([21cee37](https://github.com/DanySK/java-quadtree/commit/21cee378249df2752b96804a16364d9b6811df6b))
+* **deps:** update plugin java-qa to v1.98.0 ([#863](https://github.com/DanySK/java-quadtree/issues/863)) ([7d7d97e](https://github.com/DanySK/java-quadtree/commit/7d7d97e2b27419c52fa2e2492b8eb664a6ca6f79))
+* **deps:** update plugin multijvmtesting to v3.2.2 ([#839](https://github.com/DanySK/java-quadtree/issues/839)) ([a3e0507](https://github.com/DanySK/java-quadtree/commit/a3e05075e86dd8ee9ea8c43b0ab0113f64b46311))
+* **deps:** update plugin multijvmtesting to v3.2.3 ([#865](https://github.com/DanySK/java-quadtree/issues/865)) ([df2a69e](https://github.com/DanySK/java-quadtree/commit/df2a69e4ff4d9eed79d00bbd78fb1392146168f3))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.20 ([#840](https://github.com/DanySK/java-quadtree/issues/840)) ([f147738](https://github.com/DanySK/java-quadtree/commit/f147738ee2da6c5df349f2ce88ca93ab6c4827c8))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.21 ([#866](https://github.com/DanySK/java-quadtree/issues/866)) ([81e059c](https://github.com/DanySK/java-quadtree/commit/81e059c19920e7445de64ba34683bd881d17ec03))
+* **deps:** update plugin publishoncentral to v8.0.2 ([#822](https://github.com/DanySK/java-quadtree/issues/822)) ([e9c3e6f](https://github.com/DanySK/java-quadtree/commit/e9c3e6fd918b2acb42365985690bec20032036b3))
+* **deps:** update plugin publishoncentral to v8.0.3 ([#844](https://github.com/DanySK/java-quadtree/issues/844)) ([9f267f9](https://github.com/DanySK/java-quadtree/commit/9f267f9d85856f97d4342a5e79a5cfd88e0a7ccf))
+* **deps:** update plugin publishoncentral to v8.0.4 ([#870](https://github.com/DanySK/java-quadtree/issues/870)) ([31af3d3](https://github.com/DanySK/java-quadtree/commit/31af3d3a3ef3a364e56202e16be93982ab6561fe))
+
+### Documentation
+
+* update readme ([6f41cde](https://github.com/DanySK/java-quadtree/commit/6f41cde13b51334af06811c1b28303d50a6e9688))
+
+### Build and continuous integration
+
+* **deps:** update actions/setup-node action to v4.2.0 ([#835](https://github.com/DanySK/java-quadtree/issues/835)) ([7d48020](https://github.com/DanySK/java-quadtree/commit/7d4802093774e251db6b20ad5c0ad63b49a58b08))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v3.7.10 ([#860](https://github.com/DanySK/java-quadtree/issues/860)) ([6b7ea27](https://github.com/DanySK/java-quadtree/commit/6b7ea27fa9a43b862a62dfd417b16fc5d16bb750))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v3.7.11 ([#867](https://github.com/DanySK/java-quadtree/issues/867)) ([45fd9b9](https://github.com/DanySK/java-quadtree/commit/45fd9b92fcfba131634436b8bd4bfd2fb22a1452))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v3.7.12 ([#868](https://github.com/DanySK/java-quadtree/issues/868)) ([e7a81ee](https://github.com/DanySK/java-quadtree/commit/e7a81eee3f53c44c6a71b638e555271757721e0a))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v3.7.5 ([#829](https://github.com/DanySK/java-quadtree/issues/829)) ([77cbb54](https://github.com/DanySK/java-quadtree/commit/77cbb540446aebbd0fb84a8deebbf9018d617ae4))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v3.7.6 ([#830](https://github.com/DanySK/java-quadtree/issues/830)) ([6e0621e](https://github.com/DanySK/java-quadtree/commit/6e0621e3c726a8ee38112c8e26b6908c55830d33))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v3.7.7 ([#841](https://github.com/DanySK/java-quadtree/issues/841)) ([1b92e5b](https://github.com/DanySK/java-quadtree/commit/1b92e5b1c9fe3eded4507fb6eaf8b07f3fd06f28))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v3.7.8 ([#842](https://github.com/DanySK/java-quadtree/issues/842)) ([a2c4730](https://github.com/DanySK/java-quadtree/commit/a2c473077bccd2307f9459323d46cb137759c124))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v3.7.9 ([#856](https://github.com/DanySK/java-quadtree/issues/856)) ([a6d9c6e](https://github.com/DanySK/java-quadtree/commit/a6d9c6ec1c3c5d62ed634197bf60772c16419933))
+* **deps:** update dependency ubuntu github actions runner to v24 ([#826](https://github.com/DanySK/java-quadtree/issues/826)) ([72bac08](https://github.com/DanySK/java-quadtree/commit/72bac089a69b2f95b310634cba3d2a5df7306535))
+* **deps:** update dependency ubuntu to v24 ([#827](https://github.com/DanySK/java-quadtree/issues/827)) ([0de8c17](https://github.com/DanySK/java-quadtree/commit/0de8c1751494820f4060168cce44a184f8744468))
+* pinpoint the version of the github runners ([#825](https://github.com/DanySK/java-quadtree/issues/825)) ([4e9bcf9](https://github.com/DanySK/java-quadtree/commit/4e9bcf92895022558460f9525223a039a8c116da))
+* use the auto-selected version of java for checkstyle ([#824](https://github.com/DanySK/java-quadtree/issues/824)) ([b7774b7](https://github.com/DanySK/java-quadtree/commit/b7774b761b9b965e72e13c706068e0b3aac38471))
+
+### Style improvements
+
+* improve indentation and remove useless private method ([29e0e72](https://github.com/DanySK/java-quadtree/commit/29e0e725dab375298c66c4fc7d118a7db9c11f5e))
+* suppress PMD warnings on exhaustive switch checks, as Java 8 does not support them ([0292196](https://github.com/DanySK/java-quadtree/commit/02921963e0815d3125791dd85ae3f5f27a29e69c))
+
 ## [0.3.0](https://github.com/DanySK/java-quadtree/compare/0.2.1...0.3.0) (2025-01-25)
 
 ### Features
