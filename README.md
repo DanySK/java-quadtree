@@ -4,13 +4,7 @@ Java spatial indexing tools. In particular, contains a quad tree implementation 
 
 ## Status
 
-### Stable branch
-
-[![Build Status](https://travis-ci.org/DanySK/java-quadtree.svg?branch=master)](https://travis-ci.org/DanySK/java-quadtree)
-
-### Development branch
-
-[![Build Status](https://travis-ci.org/DanySK/java-quadtree.svg?branch=develop)](https://travis-ci.org/DanySK/java-quadtree)
+[![CI/CD](https://github.com/DanySK/java-quadtree/actions/workflows/dispatcher.yml/badge.svg)](https://github.com/DanySK/java-quadtree/actions/workflows/dispatcher.yml)
 
 ## Usage
 
@@ -39,8 +33,8 @@ I warmly suggest to use Gradle, Maven or a similar system to deal with dependenc
 
 or the following Gradle dependency:
 
-```Gradle
-compile 'org.danilopianini:java-quadtree:VERSION_YOU_WANT_TO_USE'
+```kotlin
+implementation("org.danilopianini:java-quadtree:VERSION_YOU_WANT_TO_USE")
 ```
 
 Alternatively, you can grab the latest jar and throw it in your classpath. In this case, be sure to include the dependencies of this project in your classpath as well.
