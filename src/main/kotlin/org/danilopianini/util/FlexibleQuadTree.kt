@@ -143,10 +143,10 @@ class FlexibleQuadTree<E> private constructor(
 
     override fun insert(
         element: E,
-        vararg pos: Double,
+        vararg position: Double,
     ) {
-        assert(pos.size == 2)
-        insert(element, pos[0], pos[1])
+        assert(position.size == 2)
+        insert(element, position[0], position[1])
     }
 
     /**
@@ -306,13 +306,13 @@ class FlexibleQuadTree<E> private constructor(
     }
 
     override fun move(
-        e: E,
+        element: E,
         start: DoubleArray,
         end: DoubleArray,
     ): Boolean {
         assert(start.size == 2)
         assert(end.size == 2)
-        return move(e, start[0], start[1], end[0], end[1])
+        return move(element, start[0], start[1], end[0], end[1])
     }
 
     /**
@@ -357,19 +357,19 @@ class FlexibleQuadTree<E> private constructor(
         }
     }
 
-    override fun query(vararg space: DoubleArray): MutableList<E> {
-        require(space.size == 2 && space[0].size == 2 && space[1].size == 2) {
+    override fun query(vararg parallelotope: DoubleArray): MutableList<E> {
+        require(parallelotope.size == 2 && parallelotope[0].size == 2 && parallelotope[1].size == 2) {
             "Invalid space definition"
         }
-        return query(space[0][0], space[0][1], space[1][0], space[1][1])
+        return query(parallelotope[0][0], parallelotope[0][1], parallelotope[1][0], parallelotope[1][1])
     }
 
     override fun remove(
-        e: E,
-        vararg pos: Double,
+        element: E,
+        vararg position: Double,
     ): Boolean {
-        assert(pos.size == 2)
-        return remove(e, pos[0], pos[1])
+        assert(position.size == 2)
+        return remove(element, position[0], position[1])
     }
 
     /**
