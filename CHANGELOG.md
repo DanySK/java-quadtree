@@ -1,3 +1,21 @@
+## [1.0.1](https://github.com/DanySK/java-quadtree/compare/1.0.0...1.0.1) (2025-03-25)
+
+### Dependency updates
+
+* **deps:** update dependency com.github.spotbugs:spotbugs-annotations to v4.9.2 ([#871](https://github.com/DanySK/java-quadtree/issues/871)) ([e90001e](https://github.com/DanySK/java-quadtree/commit/e90001eef5161c7a1836e36cfa2cb33f09762a8a))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.22 ([#880](https://github.com/DanySK/java-quadtree/issues/880)) ([3df571e](https://github.com/DanySK/java-quadtree/commit/3df571ee88cb3306dd10fdff9cab595f7d41321c))
+* **deps:** update plugin tasktree to v4.0.1 ([#874](https://github.com/DanySK/java-quadtree/issues/874)) ([111df62](https://github.com/DanySK/java-quadtree/commit/111df62d82049f9eb6d26ae9f00e52c922d1082d))
+
+### Bug Fixes
+
+* enforce parameter name coherence to avoid problems when calling functions with named arguments ([764c06a](https://github.com/DanySK/java-quadtree/commit/764c06a41ef424d6c8b61bf6d148c895d51bc39d))
+
+### Build and continuous integration
+
+* **deps:** update actions/setup-node action to v4.3.0 ([#875](https://github.com/DanySK/java-quadtree/issues/875)) ([b6b9e0c](https://github.com/DanySK/java-quadtree/commit/b6b9e0c10cede08f0af1f98a3bcf034df738e4ec))
+* **deps:** update danysk/build-check-deploy-gradle-action action to v3.7.13 ([#876](https://github.com/DanySK/java-quadtree/issues/876)) ([472e018](https://github.com/DanySK/java-quadtree/commit/472e0187bf5b1a323aa28afbbfe77d707ac70194))
+* dop unused dependencies ([6de06a4](https://github.com/DanySK/java-quadtree/commit/6de06a44b443910e1e248f97fe96033e33488f42))
+
 ## [1.0.0](https://github.com/DanySK/java-quadtree/compare/0.3.0...1.0.0) (2025-03-03)
 
 ### ⚠ BREAKING CHANGES
