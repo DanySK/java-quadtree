@@ -3,7 +3,7 @@ junit4 = "junit:junit:4.13.2"
 
 [plugins]
 dokka = "org.jetbrains.dokka:2.0.0"
-gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:5.1.3"
+gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:5.1.4"
 kotlin-qa = "org.danilopianini.gradle-kotlin-qa:0.89.0"
 kotlin-jvm = "org.jetbrains.kotlin.jvm:2.1.21"
 multiJvmTesting = "org.danilopianini.multi-jvm-test-plugin:3.5.0"
