@@ -7,5 +7,5 @@ gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:7
 kotlin-qa = "org.danilopianini.gradle-kotlin-qa:0.97.0"
 kotlin-jvm = "org.jetbrains.kotlin.jvm:2.3.0"
 multiJvmTesting = "org.danilopianini.multi-jvm-test-plugin:4.3.2"
-publishOnCentral = "org.danilopianini.publish-on-central:9.1.8"
+publishOnCentral = "org.danilopianini.publish-on-central:9.1.9"
 taskTree = "com.dorongold.task-tree:4.0.1"
